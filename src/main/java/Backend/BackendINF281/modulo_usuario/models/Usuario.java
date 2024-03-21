@@ -6,11 +6,17 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.Builder;
+import lombok.Data;
 
 
 @Entity
+@Data
+@Builder
 @Table(name = "usuario")
 public class Usuario {
 
@@ -36,16 +42,15 @@ public class Usuario {
     @Column
     private Integer telefono;
 
-
-    @OneToOne(mappedBy = "id_admin", cascade= CascadeType.ALL)
+    /*     
+    @OneToOne(mappedBy = "id_admin")
     private Adminsitrador administrador;
 
-    @OneToOne(mappedBy = "id_repre", cascade= CascadeType.ALL)
+    @OneToOne(mappedBy = "id_repre")
     private Representante representante;
 
-    @OneToOne(mappedBy = "id_voluntario", cascade= CascadeType.ALL)
+    @OneToOne(mappedBy = "id_voluntario")
     private Voluntario voluntario;
-
-
+    */
 
 }

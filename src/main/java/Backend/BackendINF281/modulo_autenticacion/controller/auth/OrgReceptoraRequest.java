@@ -7,15 +7,19 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class RegisterRequest {
+@NoArgsConstructor
+public class OrgReceptoraRequest {
 
     String nombre;
     String apellido;
     String password;
     String correo;
     String ubicacion;
-    int telefono;
+    Integer telefono;
+    String user;
+    String tipoOrg;
+    String ubicacionO;
+    String nombreOrg;
 
 }

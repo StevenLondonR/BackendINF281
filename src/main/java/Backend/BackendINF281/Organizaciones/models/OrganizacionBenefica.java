@@ -1,14 +1,10 @@
-package Backend.BackendINF281.modulo_usuario.models;
+package Backend.BackendINF281.Organizaciones.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,17 +12,27 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Entity
 @Builder
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "administrador")
-public class Adminsitrador {
+@Table(name="organizacion_benefica")
+public class OrganizacionBenefica {
 
     @Id
-    private Integer id_admin;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id_org_ben;
 
     @Column
-    private String ci;
+    private String Ubicacion;
+
+    @Column
+    private String tipo_a;
+
+    @Column
+    private String area_servicio;
+
+    @Column
+    private String nombre_org;
 
 }

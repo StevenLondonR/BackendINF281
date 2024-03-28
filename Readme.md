@@ -85,7 +85,7 @@ Ejemplo de variables a mandar en formato json
     "ubicacionO": "PerezO",
     "nombreOrg": "anonimo"
 
-### - Retorno de al autenticarse
+### - Retorno al autenticarse
 
 Al registrar o entrar por login se devolvera un token 
 

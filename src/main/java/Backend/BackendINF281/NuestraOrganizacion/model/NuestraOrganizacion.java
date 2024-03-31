@@ -1,40 +1,34 @@
-package Backend.BackendINF281.Inventario;
+package Backend.BackendINF281.NuestraOrganizacion.model;
 
-import java.sql.Date;
-
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
+@Entity
 @Data
 @Builder
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="alimento")
-public class Alimento {
+@Table(name = "datos_organizacion")
+public class NuestraOrganizacion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_alimento;
+    @Column(name = "id_organizacion")
+    private Integer idorganizacion;
 
-    private String tipo;
+    private String mision;
 
-    private Date fecha_venc;
+    private String vision;
 
-    private Integer cantidad;
-
-    private String estado;
-
-    
+    @Column(name = "que_hacemos")
+    private String quehacemos;
 
 }

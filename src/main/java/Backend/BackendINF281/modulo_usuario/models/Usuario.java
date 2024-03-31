@@ -43,6 +43,8 @@ public class Usuario implements UserDetails{
 
     private Integer telefono;
 
+    
+    
     /* 
     @OneToOne(mappedBy = "id_admin")
     private Adminsitrador administrador;

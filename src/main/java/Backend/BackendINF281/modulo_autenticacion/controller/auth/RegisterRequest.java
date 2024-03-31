@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class RegisterRequest {
 
     String nombre;
@@ -16,6 +16,5 @@ public class RegisterRequest {
     String password;
     String correo;
     String ubicacion;
-    int telefono;
-
+    Integer telefono;
 }

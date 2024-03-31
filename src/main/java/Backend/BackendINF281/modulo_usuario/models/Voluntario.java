@@ -29,12 +29,6 @@ public class Voluntario {
     private Integer id_voluntario;
 
     @Column
-    private String turno;
-
-    @Column
-    private String horario;
-
-    @Column
     private Integer edad;
 
 

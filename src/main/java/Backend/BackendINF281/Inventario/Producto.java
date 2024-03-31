@@ -32,8 +32,5 @@ public class Producto {
     private Integer cantidad;
 
     
-    @ManyToOne
-    @JoinColumn(name="id_historial")
-    private HistorialDeshecho historialDeshecho;
 
 }

@@ -19,26 +19,15 @@ public class authcontroller {
 
     @PostMapping(value = "login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request){
-
         return ResponseEntity.ok(authService.login(request));
 
     }
 
-    @PostMapping(value = "registerVol")
-    public ResponseEntity<AuthResponse> registerVoluntario(@RequestBody VoluntarioRequest request){
+    @PostMapping(value = "register")
+    public ResponseEntity<AuthResponse> registerVoluntario(@RequestBody RegisterRequest request){
         return ResponseEntity.ok(authService.registerVol(request));
     }
     
-    @PostMapping(value="registerOB")
-    public ResponseEntity<AuthResponse> registerOBenefica(@RequestBody OrgBeneficaRequest request) {
-        return ResponseEntity.ok(authService.registerBen(request));
-    }
-
-    @PostMapping(value="registerOR")
-    public ResponseEntity<AuthResponse> registerOReceptora(@RequestBody OrgReceptoraRequest request) {
-
-        return ResponseEntity.ok(authService.registerRec(request));
-    }
     
     
 

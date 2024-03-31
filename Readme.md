@@ -102,7 +102,7 @@ Ejemplo de variables a mandar en formato json:
     "que_hacemos": "gestionar donaciones"
 }
 ```
-
+Solo retornara un valor booleano **true** al guardarse.
 
 <div id="obtener"/>
 
@@ -117,7 +117,7 @@ Ejemplo url a mandar :
 | Por metodo GET | http://localhost:8080/nuestraOrg/1 |
 | --- | --- | 
 
-Se obtendra los datos con id = 1 de nuestra organizacion en la siguiente forma:  
+Se devolveran los datos con id = 1 de nuestra organizacion en la siguiente forma:  
 ```json
 {
     "idorganizacion": 1,
@@ -149,6 +149,8 @@ Ejemplo de variables a mandar en formato json:
     "que_hacemos": "gestionar donaciones"
 }
 ```
+Solo retornara un valor booleano **true** al actualizarse.
+
 Es obligatorio que el atributo **id** este presente, pero para los otros atributos (mision, vision, que_hacemos) pueden o no estar presentes al actualizar los datos. 
 
 

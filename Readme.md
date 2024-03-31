@@ -1,5 +1,8 @@
 
 # API REST BACKEND
+
+El api-rest funciona con java 21 
+
 ## NOTA: Para la tabla usuario, el atributo correo no se puede repetir
 
 **Indice**

@@ -1,92 +1,154 @@
 
 # API REST BACKEND
-## NOTA: Para la tabla usuario, los atributos nombre y correo no se pueden repetir
+## NOTA: Para la tabla usuario, el atributo correo no se puede repetir
 
-## AUTHENTICACION
+**Indice**
+1. [Autenticacion](#auth)  
+    1.1 [Login](#login)  
+    1.2 [Registrar](#register)  
+    1.2 [Output](#output)  
+2. [Nuestra organizacion](#nuestraOrg)  
+    2.1 [Guardar](#guardar)  
+    2.2 [Obtener](#obtener)  
+    2.3 [Actualizar](#update)
+
+## Tabla de direcciones de todos los endpoints
+
+|  | Metodo | Direcciones |
+| --- | --- | --- |
+| [Login](#log) | POST | http://localhost:8080/auth/login |
+| [Register](#register) | POST | http://localhost:8080/auth/register |
+|  |  |  |
+| [Guardar](#guardar) | POST |http://localhost:8080/nuestraOrg/save |  
+| [Obtener](#obtener) | GET | http://localhost:8080/nuestraOrg/{id} |
+| [Actualizar](#update) | PATCH |http://localhost:8080/nuestraOrg |
+
+
+<div id="auth"/>
+
+## AUTENTICACION
+
+<div id="login"/>
 
 ## - LOGIN
 
-| <p><center> Direccion </center></p> | 
-------------
-| http://localhost:8080/auth/login |
-------------
+| Metodo | Direccion | 
+| --- | --- |
+| POST |http://localhost:8080/auth/login |
 
-![alt text](image-2.png)
+Ejemplo de variables a mandar en formato json: 
 
-Ejemplo de variables a mandar en formato json
+```json
+{ 
+    "correo": "minio@minion.com", 
+    "password": "15354ler"
+}
+```
 
-    "correo": "Royer@gmail.com",
-    "password": "789654123"
+<div id="register"/>
 
+## - REGISTRAR  
 
-### - Usuario voluntario
-------------
-| <p><center> Direccion </center></p> | 
-------------
-| http://localhost:8080/auth/registerVol |
-------------
+| Metodo | Direccion | 
+| --- | --- |
+| POST |http://localhost:8080/auth/register |
 
-![alt text](image-1.png)
+Ejemplo de variables a mandar en formato json: 
 
-Ejemplo de variables a mandar en formato json
-
-    "nombre": "Gemini",  
-    "apellido": "Ramos",    
-    "password": "1232456789",  
-    "correo": "Minion@gmail.com",  
-    "ubicacion": "Perez",  
-    "telefono": 798541260,  
-    "edad": 18,  
-    "turno": "Tarde",  
-    "horario": "15:32-20:00"  
-
-
-
-### - Formulario para el usuario y la organizacion benefica
-------------
-| <p><center> Direccion </center></p> | 
-------------
-| http://localhost:8080/auth/registerOB |
-------------
-
-![alt text](image-3.png)
-
-Ejemplo de variables a mandar en formato json
-
+```json
+{ 
     "nombre": "Robert",
     "apellido": "migo",
     "password": "15354ler",
     "correo": "minio@minion.com",
     "ubicacion": "Perez",
-    "telefono": 1598328,
-    "tipoAlimento": "lacteos",
-    "ubicacionO": "Perez",
-    "areaServicio": "no se",
-    "nombreOrg": "minions"
+    "telefono": 1598328
+}
+```
 
-### - Formulario para el usuario y la organizacion Receptora
-------------
-| <p><center> Direccion </center></p> | 
-------------
-| http://localhost:8080/auth/registerOR |
-------------
+<div id="output"/>
 
-![alt text](image-4.png)
+## - SALIDA  
 
-Ejemplo de variables a mandar en formato json
+Un usuario al autenticarse se devolvera un token en el siguiente formato:
 
-    "nombre": "Alvarez",
-    "apellido": "royer",
-    "password": "789654123",
-    "correo": "Royer@gmail.com",
-    "ubicacion": "Colombia",
-    "telefono": 1234567,
-    "tipoOrg": "super",
-    "ubicacionO": "PerezO",
-    "nombreOrg": "anonimo"
+```json
+{
+    "token":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJSb2JlcnQiLCJpYXQiOjE3MTE5MTE5NDIsImV4cCI6MTcxMTkxMzM4Mn0.XlqUxBUkyV26jCTDvLFZfMD55NQ0nG135L9RJfbT44k"  
+}
+```
 
-### - Retorno al autenticarse
+<div id="nuestraOrg"/>
 
-Al registrar o entrar por login se devolvera un token 
+## NUESTRA ORGANIZACION   
 
-![alt text](image-5.png)
+Un usuario admnistrador( actualmente aun no se tiene restriccion para que el administrador lo modifique ) al entrar podra obtener y modificar los datos de la organizacion
+
+<div id="guardar"/>
+
+## - Guardar  
+
+
+| Metodo | Direccion | 
+| --- | --- |
+| POST |http://localhost:8080/nuestraOrg/save |
+
+Ejemplo de variables a mandar en formato json: 
+
+```json
+{ 
+    "mision": "donar",
+    "vision": "realizar mas donaciones",
+    "que_hacemos": "gestionar donaciones"
+}
+```
+
+
+<div id="obtener"/>
+
+## - Obtener  
+
+| Metodo | Direccion | 
+| --- | --- |
+| GET | http://localhost:8080/nuestraOrg/{id} |
+
+Ejemplo url a mandar : 
+
+| Por metodo GET | http://localhost:8080/nuestraOrg/1 |
+| --- | --- | 
+
+Se obtendra los datos con id = 1 de nuestra organizacion en la siguiente forma:  
+```json
+{
+    "idorganizacion": 1,
+    "mision": "verdadero",
+    "vision": "cresemos y avanzamos",
+    "quehacemos": "donaciones"
+}  
+```
+
+
+<div id="update"/>
+
+## - Actualizar
+
+
+| Metodo | Direccion | 
+| --- | --- |
+| PATCH |http://localhost:8080/nuestraOrg |
+
+Se puede actualizar cualquier dato de la organizacion: mision, vision, que_hacemos. 
+
+Ejemplo de variables a mandar en formato json: 
+
+```json
+{ 
+    "id": 1,
+    "mision": "donar",
+    "vision": "realizar mas donaciones",
+    "que_hacemos": "gestionar donaciones"
+}
+```
+Es obligatorio que el atributo **id** este presente, pero para los otros atributos (mision, vision, que_hacemos) pueden o no estar presentes al actualizar los datos. 
+
+

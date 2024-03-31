@@ -3,6 +3,7 @@ package Backend.BackendINF281.NuestraOrganizacion.Service;
 import org.springframework.stereotype.Service;
 
 import Backend.BackendINF281.NuestraOrganizacion.Controller.OrgRequest;
+import Backend.BackendINF281.NuestraOrganizacion.Controller.OrgSaveRequest;
 import Backend.BackendINF281.NuestraOrganizacion.Repository.NuestraOrgRepository;
 import Backend.BackendINF281.NuestraOrganizacion.model.NuestraOrganizacion;
 import jakarta.transaction.Transactional;
@@ -14,7 +15,7 @@ public class OrgService {
 
     private final NuestraOrgRepository nuestraOrgR;
 
-    public boolean saveOrg( OrgRequest orgRequest){
+    public boolean saveOrg( OrgSaveRequest orgRequest){
 
         NuestraOrganizacion org= NuestraOrganizacion.builder()
                 .mision(orgRequest.getMision())
@@ -38,7 +39,6 @@ public class OrgService {
     @Transactional
     public boolean updateOrg( OrgRequest org){
         nuestraOrgR.updateOrg(org.getId(),org.getMision(),org.getVision(), org.getQue_hacemos());
-        System.out.println(org);
         return true;
     }
 

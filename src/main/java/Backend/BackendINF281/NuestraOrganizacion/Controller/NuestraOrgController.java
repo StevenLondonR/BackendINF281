@@ -27,7 +27,7 @@ public class NuestraOrgController {
     private final OrgService orgService;
 
     @PostMapping(value="save")
-    public ResponseEntity<Boolean> postMethodName(@RequestBody OrgRequest orgRequest) {
+    public ResponseEntity<Boolean> postMethodName(@RequestBody OrgSaveRequest orgRequest) {
         return ResponseEntity.ok(orgService.saveOrg(orgRequest));
     }
 

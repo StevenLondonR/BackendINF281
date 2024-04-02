@@ -8,7 +8,7 @@ import Backend.BackendINF281.modulo_usuario.models.Usuario;
 
 public interface UsuarioRepository extends JpaRepository<Usuario,Integer>{
 
-    public Optional<Usuario> findByNombre(String nombre);
+    //public Optional<Usuario> findByNombre(String nombre);
 
     public Optional<Usuario> findByCorreo(String correo);
 

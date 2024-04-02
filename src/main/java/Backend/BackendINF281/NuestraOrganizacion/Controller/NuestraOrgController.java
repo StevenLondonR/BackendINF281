@@ -37,7 +37,6 @@ public class NuestraOrgController {
         if(org==null){
             return ResponseEntity.notFound().build();
         }
-        
         return ResponseEntity.ok(org);
     }
     

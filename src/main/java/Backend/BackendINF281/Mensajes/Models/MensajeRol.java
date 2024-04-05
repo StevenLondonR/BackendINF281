@@ -1,15 +1,12 @@
-package Backend.BackendINF281.modulo_usuario.models;
+package Backend.BackendINF281.Mensajes.Models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
+import Backend.BackendINF281.modulo_usuario.models.Usuario;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -17,18 +14,24 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @Entity
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "voluntario")
-public class Voluntario {
+@Table(name = "mensaje_rol")
+public class MensajeRol {
 
     @Id
-    private Integer id_voluntario;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id_rol;
 
-    @Column
     private String rol;
+
+    private String contenido;
+
+    @ManyToOne
+    @JoinColumn(name = "id_usuario")
+    private Usuario postular;
 
 }

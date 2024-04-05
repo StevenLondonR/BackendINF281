@@ -1,10 +1,14 @@
 package Backend.BackendINF281.Organizaciones.models;
 
+import java.util.List;
+
+import Backend.BackendINF281.modulo_usuario.models.Donante;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,5 +38,8 @@ public class OrganizacionBenefica {
 
     @Column
     private String nombre_org;
+
+    @OneToMany(mappedBy = "orgBen")
+    private List<Donante> donantes;
 
 }

@@ -29,7 +29,8 @@ public class Usuario implements UserDetails{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_usuario;
+    @Column(name="id_usuario")
+    private Integer idUsuario;
 
     String nombre;
 
@@ -42,8 +43,9 @@ public class Usuario implements UserDetails{
     String correo;
 
     private Integer telefono;
-
     
+    @Column
+    String estado;    
     
     /* 
     @OneToOne(mappedBy = "id_admin")

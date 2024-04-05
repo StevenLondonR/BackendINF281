@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
-@CrossOrigin(origins = {"http://localhost:4200","http://localhost:8080"})
+@CrossOrigin(origins = {"http://localhost:4200","http://localhost:8090"})
 public class authcontroller {
 
     private final AuthService authService;
@@ -24,7 +24,7 @@ public class authcontroller {
     }
 
     @PostMapping(value = "register")
-    public ResponseEntity<AuthResponse> registerVoluntario(@RequestBody RegisterRequest request){
+    public ResponseEntity<String> registerVoluntario(@RequestBody RegisterRequest request){
         return ResponseEntity.ok(authService.registerVol(request));
     }
     

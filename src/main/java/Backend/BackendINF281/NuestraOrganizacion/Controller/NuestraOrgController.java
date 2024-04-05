@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RestController
 @RequestMapping("/nuestraOrg")
 @RequiredArgsConstructor
-@CrossOrigin(origins = {"http://localhost:4200","http://localhost:8080"})
+@CrossOrigin(origins = {"http://localhost:4200","http://localhost:8090"})
 public class NuestraOrgController {
     
     private final OrgService orgService;

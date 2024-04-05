@@ -20,36 +20,44 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
-    public AuthResponse login(LoginRequest request) {
+    public AuthResponse login(LoginRequest request) {  
+        Usuario userR=userRepo.findByCorreo(request.getCorreo()).orElseThrow();
+        if(userR.getEstado().equals("Habilitado")){  
+            UserDetails user=(UserDetails) userR;
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), request.getPassword()));
+            String token=jwtservice.getToken(user);   
+            
+            return AuthResponse.builder()  
+                .token(token)  
+                .build();  
+        }
+        return null;
         
-        UserDetails user=userRepo.findByCorreo(request.getCorreo()).orElseThrow();
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), request.getPassword()));
-        String token=jwtservice.getToken(user);
-        return AuthResponse.builder()
-            .token(token)
-            .build();
-
         
     }
 
-    public AuthResponse registerVol(RegisterRequest request) {
+    public String registerVol(RegisterRequest request) {  
 
-        
         Usuario user=Usuario.builder() 
                 .nombre(request.getNombre()) 
                 .apellido(request.getApellido()) 
-                .contraseña(passwordEncoder.encode(request.getPassword())) 
-                .correo(request.getCorreo())
+                .contraseña(passwordEncoder.encode(request.getPassword()))   
+                .correo(request.getCorreo())  
                 .ubicacion(request.getUbicacion()) 
-                .telefono(request.getTelefono()) 
-                .build(); 
+                .telefono(request.getTelefono())  
+                .estado("Pendiente") 
+                .build();  
+        userRepo.save(user);  
 
-        userRepo.save(user);
+        return "Se envio la solicitud"; 
 
-        return AuthResponse.builder()
-            .token(jwtservice.getToken(user))
-            .build();
     }
     
 
 }
+
+
+
+
+
+

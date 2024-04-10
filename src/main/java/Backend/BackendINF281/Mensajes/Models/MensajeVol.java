@@ -28,7 +28,7 @@ public class MensajeVol {
 
     private String rol;
 
-    private String estado;
+    private String estado;  /// valores: Pendiente, Rechazado 
 
     @ManyToOne
     @JoinColumn(name="id_voluntario")

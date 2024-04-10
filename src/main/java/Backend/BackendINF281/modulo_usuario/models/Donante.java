@@ -1,6 +1,7 @@
 package Backend.BackendINF281.modulo_usuario.models;
 
 import Backend.BackendINF281.Organizaciones.models.OrganizacionBenefica;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -20,7 +21,8 @@ import lombok.NoArgsConstructor;
 public class Donante {
     
     @Id
-    private Integer id_usuario;
+    @Column(name = "id_usuario")
+    private Integer idusuario;
 
     @ManyToOne
     @JoinColumn(name="id_org_ben")

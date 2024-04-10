@@ -9,13 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UsuarioPostResponse {
+public class escogerRolRequest {
 
-    Integer id;
-    String nombre;
-    String apellido;
     String correo;
-    Integer telefono;
-    String estado;
+    String rol;
+    String contenido;
 
 }

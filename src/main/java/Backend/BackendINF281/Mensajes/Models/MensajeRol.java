@@ -1,6 +1,9 @@
 package Backend.BackendINF281.Mensajes.Models;
 
+import java.util.List;
+
 import Backend.BackendINF281.modulo_usuario.models.Usuario;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,7 +27,8 @@ public class MensajeRol {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_rol;
+    @Column(name = "id_rol")
+    private Integer idrol;
 
     private String rol;
 

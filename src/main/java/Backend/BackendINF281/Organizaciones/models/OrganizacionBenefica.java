@@ -34,10 +34,12 @@ public class OrganizacionBenefica {
     private String tipo_a;
 
     @Column
-    private String area_servicio;
+    private String nombre_org;
 
     @Column
-    private String nombre_org;
+    private String area_servicio;
+
+    
 
     @OneToMany(mappedBy = "orgBen")
     private List<Donante> donantes;

@@ -4,6 +4,7 @@ import java.sql.Date;
 
 import Backend.BackendINF281.modulo_usuario.models.Usuario;
 import Backend.BackendINF281.modulo_usuario.models.Voluntario;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,7 +27,8 @@ public class Donacion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_donacion;
+    @Column(name = "id_donacion")
+    private Integer iddonacion;
 
     private Integer cantidad;
 

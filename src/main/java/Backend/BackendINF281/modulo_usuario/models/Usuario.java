@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import Backend.BackendINF281.Mensajes.Models.MensajeRol;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -46,7 +47,10 @@ public class Usuario implements UserDetails{
     
     @Column
     String estado;    
-    
+/*
+    @OneToMany(mappedBy = "postular")
+    private MensajeRol mensajesRol;*/
+
     /* 
     @OneToOne(mappedBy = "id_admin")
     private Adminsitrador administrador;

@@ -2,6 +2,8 @@ package Backend.BackendINF281.modulo_usuario.models;
 
 import java.util.List;
 
+import Backend.BackendINF281.DonacionSolicitud.Models.Donacion;
+import Backend.BackendINF281.DonacionSolicitud.Models.Solicitud;
 import Backend.BackendINF281.Mensajes.Models.MensajeVol;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
@@ -11,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToMany;
@@ -37,7 +40,19 @@ public class Voluntario {
     private String rol;
 
     @OneToMany(mappedBy = "postulav")
-    private List<MensajeVol> mensajeV;
+    private List<MensajeVol> listMensajesV;
+
+    @OneToMany(mappedBy = "voluntario")
+    private List<Donacion> listDoncionesVolR; /// lista de donaciones de un responsable 
+
+    @OneToMany(mappedBy = "voluntario")  
+    private List<Solicitud> listSolicitudesVolR;  /// lista de donaciones de un responsable 
+
+    @ManyToMany(mappedBy = "listVoluntariosColab")  
+    private List<Donacion> listDonacionesVolC;   // lista de donaciones de un colaborador
+
+    @ManyToMany(mappedBy = "listVoluntariosColab")
+    private List<Solicitud> listSolicitudesVolV;  // lista de solicitudes de un colaborador
 
 
 }

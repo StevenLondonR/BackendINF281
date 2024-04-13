@@ -7,3 +7,5 @@ import Backend.BackendINF281.DonacionSolicitud.Models.Donacion;
 public interface DonacionRepository extends JpaRepository<Donacion,Integer>{
 
 }
+
+

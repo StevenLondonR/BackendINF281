@@ -24,15 +24,15 @@ public class DonacionService {
         for(int i=0;i< listDon.size();i++){
             DonacionResponse donResp=DonacionResponse.builder()
                             .idDon(listDon.get(i).getIddonacion())
-                            .nombreU(listDon.get(i).getUsuario().getNombre())
-                            .apellidoU(listDon.get(i).getUsuario().getApellido())
+                            //.nombreU(listDon.get(i).getUsuario().getNombre())
+                            //.apellidoU(listDon.get(i).getUsuario().getApellido())
                             .cantidad(listDon.get(i).getCantidad())
                             .tipo_ap(listDon.get(i).getTipo_ap())
                             .fechaHoraProg(listDon.get(i).getFecha_hora_adquisicion().toString()) // TODO veficar la posicion de los datos al convertir a string 
                             .estado(verificarEstadoDonacion(listDon.get(i).getIddonacion()))
                             .build();
-                    // TODO falta guardar la donacion a las entidades 
-        
+            listResponse.add(donResp);
+
         }
         return listResponse;
     }

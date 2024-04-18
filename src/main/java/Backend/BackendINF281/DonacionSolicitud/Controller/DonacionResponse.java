@@ -11,14 +11,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class DonacionResponse {
 
-    Integer idDon;
-    String nombreU;
-    String apellidoU;
-    Integer telefonoU; 
-    Integer cantidad;
-    String tipo_ap;
-    String fechaHoraProg;
+    Integer idDonacion;  // de la entidad usuario
+    String nombreU;      // de la entidad usuario
+    String apellidoU;    // de la entidad usuario
+    Integer telefonoU;   // de la entidad usuario
+    Integer cantidad;  // de la entidad donacion
+    String tipo_ap;     // de la entidad donacion
+    String fechaHoraProg; // de la entidad donacion
     String estado;  // sinVoluntarios, Pendiente, Realizado
-
+    String correoResponsable;  // de la entidad donante
+    Integer nroRequeridoCol;   // de la entidad donacion
+    Integer nroColaboradores;  // de la entidad donacion
 
 }

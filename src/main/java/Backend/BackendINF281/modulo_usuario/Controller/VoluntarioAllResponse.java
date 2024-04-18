@@ -1,4 +1,4 @@
-package Backend.BackendINF281.Mensajes.Controller;
+package Backend.BackendINF281.modulo_usuario.Controller;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,13 +9,13 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserMensajeRolResponse {
+public class VoluntarioAllResponse {
 
-    Integer idmensaje;
-    String nombre;
+    String nombreUser;
     String apellido;
     String correo;
     Integer telefono;
-    String rol;
+    String estadoGeneralUser;   /// Hobilitado, inabilitado
+    String subrol;
 
 }

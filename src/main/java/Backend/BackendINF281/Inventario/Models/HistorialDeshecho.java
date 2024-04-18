@@ -43,3 +43,4 @@ public class HistorialDeshecho {
     private List<deshechaA> listAlim;
 
 }
+

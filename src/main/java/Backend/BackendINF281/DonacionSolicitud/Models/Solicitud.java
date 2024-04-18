@@ -1,6 +1,7 @@
 package Backend.BackendINF281.DonacionSolicitud.Models;
 
 import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
 
 import Backend.BackendINF281.modulo_usuario.models.Receptor;
@@ -17,6 +18,8 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -39,9 +42,11 @@ public class Solicitud {
 
     private String tipo_ap;
 
-    private Date fecha_hora_prog;
+    @Column(name="fecha_hora_prog")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Calendar fecha_hora_prog;
+
     @Column(name = "cant_requerida_vol")
-    
     private Integer cantidadReqVol;
 
     @Column(name = "nro_voluntarios")

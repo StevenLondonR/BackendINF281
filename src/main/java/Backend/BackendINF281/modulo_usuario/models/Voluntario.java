@@ -5,6 +5,7 @@ import java.util.List;
 import Backend.BackendINF281.DonacionSolicitud.Models.Donacion;
 import Backend.BackendINF281.DonacionSolicitud.Models.Solicitud;
 import Backend.BackendINF281.Mensajes.Models.MensajeVol;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -39,19 +40,19 @@ public class Voluntario {
     @Column
     private String rol;
 
-    @OneToMany(mappedBy = "postulav")
+    @OneToMany(mappedBy = "postulav", cascade = {CascadeType.ALL},orphanRemoval= true )
     private List<MensajeVol> listMensajesV;
 
-    @OneToMany(mappedBy = "voluntario")
-    private List<Donacion> listDoncionesVolR; /// lista de donaciones de un responsable 
+    @OneToMany(mappedBy = "voluntario", cascade = {CascadeType.ALL},orphanRemoval= true )
+    private List<Donacion> listDonacionesVolR; /// lista de donaciones de un responsable 
 
-    @OneToMany(mappedBy = "voluntario")  
+    @OneToMany(mappedBy = "voluntario", cascade = {CascadeType.ALL},orphanRemoval= true )  
     private List<Solicitud> listSolicitudesVolR;  /// lista de donaciones de un responsable 
 
-    @ManyToMany(mappedBy = "listVoluntariosColab")  
+    @ManyToMany(mappedBy = "listVoluntariosColab", cascade = {CascadeType.ALL} )  
     private List<Donacion> listDonacionesVolC;   // lista de donaciones de un colaborador
 
-    @ManyToMany(mappedBy = "listVoluntariosColab")
+    @ManyToMany(mappedBy = "listVoluntariosColab", cascade = {CascadeType.ALL})
     private List<Solicitud> listSolicitudesVolV;  // lista de solicitudes de un colaborador
 
 

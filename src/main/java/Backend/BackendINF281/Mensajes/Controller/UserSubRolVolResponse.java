@@ -9,13 +9,14 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserMensajeRolResponse {
+public class UserSubRolVolResponse {
 
-    Integer idmensaje;
+    Integer idmensajeSubRol;
     String nombre;
     String apellido;
     String correo;
     Integer telefono;
-    String rol;
+    String estadoMensajeSubRol; 
+    String subrol;  // Responsable , Colaborador
 
 }

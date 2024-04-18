@@ -1,4 +1,4 @@
-package Backend.BackendINF281.DonacionSolicitud.Controller;
+package Backend.BackendINF281.Mensajes.Controller;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,11 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DonacionRequest {
-    
+public class RolVolRequest {
+
     String correo;
-    Integer cantidad;
-    String tipo_ap;
-    String fechaHoraRecogida;
-    
+    String subrol;  /// Colaborador, Responsable
+ 
 }

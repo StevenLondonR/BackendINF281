@@ -1,5 +1,6 @@
 package Backend.BackendINF281.DonacionSolicitud.Controller;
 
+import java.text.ParseException;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -27,28 +28,28 @@ public class DonacionController {
     private final DonacionService donService; 
 
     @GetMapping(value="getAllDonaciones")
-    public List<DonacionResponse> getAllDonaciones() {
+    public List<DonacionResponse> getAllDonaciones() throws ParseException {
         return donService.getAll();
     }
     
     @GetMapping(value="getDonRealizadas")
-    public List<DonacionResponse> getDonRealizadas() {
+    public List<DonacionResponse> getDonRealizadas() throws ParseException {
         return donService.getDonRealizados();
     }
     
-    @GetMapping(value="getDonRealizadas/{idUser}")
-    public List<DonacionResponse> getDonRealizadasU(@PathVariable Integer idUser) {
-        return donService.getDonRealizados(idUser);
+    @PostMapping(value="getDonRealizadas")
+    public List<DonacionResponse> getDonRealizadasU(@RequestBody UserRequest User) throws ParseException {
+        return donService.getDonRealizados(User); // TODO cambiar a metodo post con entrada de UserRquest
     }
 
     @GetMapping(value="getDonNoRealizadas")
-    public List<DonacionResponse> getDonNoRealizadasU() {
+    public List<DonacionResponse> getDonNoRealizadasU() throws ParseException {
         return donService.getDNoRealizados();
     }
 
-    @GetMapping(value="getDonNoRealizadas/{idUser}")
-    public List<DonacionResponse> getDonNoRealizadasU(@PathVariable Integer idUser) {
-        return donService.getDNoRealizados(idUser);
+    @PostMapping(value="getDonNoRealizadas")
+    public List<DonacionResponse> getDonNoRealizadasU(@RequestBody UserRequest User) throws ParseException {
+        return donService.getDNoRealizados(User);
     }
     // TODO Agregar getDonPendiente, getDonSinRepsentante para el voluntario repesentante y colaborador
     
@@ -57,10 +58,20 @@ public class DonacionController {
     public boolean realizarDonacion(@RequestBody DonacionRequest request) {
         return donService.realizarD(request);
     }
-
+/*
     @PostMapping(value="deleteDonacion/{idDonacion}")
     public boolean deleteDonacion(@RequestBody UserRequest request){
         return donService.deleteDon(request);
+    }*/
+/////////////////////////////////////////////VOLUNTARIO///////////////////////
+    @PostMapping(value="getAllDonacionesResponsable")
+    public List<DonacionResponse> getAllDonacionesResponsable(@RequestBody UserRequest User) throws ParseException {
+        return donService.getDonacionesResponsable(User);
+    }
+
+    @PostMapping(value="getAllDonacionesColaborador")
+    public List<DonacionResponse> getAllDonacionesColaborador(@RequestBody UserRequest User) throws ParseException {
+        return donService.getDonacionesColaborador(User);
     }
 
 

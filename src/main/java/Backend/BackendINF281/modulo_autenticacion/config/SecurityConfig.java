@@ -31,6 +31,8 @@ public class SecurityConfig {
                     authRequest
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/nuestraOrg/{id}").permitAll()
+                        .requestMatchers("/swagger-ui/**").permitAll()
+                        .requestMatchers("/v3/**").permitAll()
                         .anyRequest().authenticated()
                 )
                             .sessionManagement(sessionManager -> 

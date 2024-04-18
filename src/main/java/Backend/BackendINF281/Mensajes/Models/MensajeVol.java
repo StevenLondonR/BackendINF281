@@ -1,6 +1,7 @@
 package Backend.BackendINF281.Mensajes.Models;
 
 import Backend.BackendINF281.modulo_usuario.models.Voluntario;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,12 +20,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "mensaje_vol")
-
 public class MensajeVol {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_postula;
+    @Column(name="id_postula")
+    private Integer idpostula;
 
     private String rol;
 

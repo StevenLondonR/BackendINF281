@@ -1,5 +1,6 @@
 package Backend.BackendINF281.modulo_usuario.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,8 +10,10 @@ import Backend.BackendINF281.Mensajes.Models.MensajeVol;
 import Backend.BackendINF281.Mensajes.Repository.MensajeVolRepository;
 import Backend.BackendINF281.Organizaciones.models.OrganizacionBenefica;
 import Backend.BackendINF281.Organizaciones.models.OrganizacionReceptora;
+import Backend.BackendINF281.modulo_usuario.Controller.DonanteAllReponse;
 import Backend.BackendINF281.modulo_usuario.Controller.UserRequest;
 import Backend.BackendINF281.modulo_usuario.Controller.UserSimpleResponse;
+import Backend.BackendINF281.modulo_usuario.Controller.VoluntarioAllResponse;
 import Backend.BackendINF281.modulo_usuario.models.Donante;
 import Backend.BackendINF281.modulo_usuario.models.Receptor;
 import Backend.BackendINF281.modulo_usuario.models.Usuario;
@@ -84,5 +87,66 @@ public class UserService {
 
         return null;
     }
+
+    //// //////// DONANTE
+
+    public List<DonanteAllReponse> listAllDonantes(){
+        
+        List<DonanteAllReponse> listAllD = new ArrayList<>();
+
+        List<Donante> Ldon1=donanteRepository.findAll();
+
+        for(int i=0;i<Ldon1.size();i++){
+            Usuario user=usuarioRepository.findByIdUsuario(Ldon1.get(i).getIdusuario()).orElse(null);
+            String nomOrg="";
+            if(Ldon1.get(i).getOrgBen() != null){
+                nomOrg=Ldon1.get(i).getOrgBen().getNombre_org();
+            }
+
+            DonanteAllReponse salidaDResponse=DonanteAllReponse.builder()
+                            .nombreUser(user.getNombre())
+                            .apellidoUser(user.getApellido())
+                            .correo(user.getCorreo())
+                            .telefono(user.getTelefono())
+                            .estado(user.getEstado())
+                            .nombreOrg(nomOrg)
+                            .build();
+            listAllD.add(salidaDResponse);
+        }
+
+        return listAllD;
+
+    }
+//////////// voluntarios 
+
+    public List<VoluntarioAllResponse> obtenerAllVoluntarios(){
+       
+        List<VoluntarioAllResponse> allVol=new ArrayList<>();  
+
+        List<Voluntario> listVol=voluntarioRepository.findAll();
+
+        for(int i=0;i<listVol.size();i++){
+
+            Usuario user=usuarioRepository.findByIdUsuario(listVol.get(i).getIdvoluntario()).orElse(null);
+
+            VoluntarioAllResponse volR=VoluntarioAllResponse.builder()
+                            .nombreUser(user.getNombre())
+                            .apellido(user.getApellido())
+                            .correo(user.getCorreo())
+                            .telefono(user.getTelefono())
+                            .estadoGeneralUser(user.getEstado())
+                            .subrol(listVol.get(i).getRol())
+                            .build();
+            allVol.add(volR);
+        }
+
+        return allVol;
+    }
+
+//////////
+
+
+
+
 
 }

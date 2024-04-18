@@ -6,10 +6,14 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import Backend.BackendINF281.Mensajes.Controller.RolVolRequest;
 import Backend.BackendINF281.Mensajes.Controller.UserMensajeRolResponse;
+import Backend.BackendINF281.Mensajes.Controller.UserSubRolVolResponse;
 import Backend.BackendINF281.Mensajes.Controller.escogerRolRequest;
 import Backend.BackendINF281.Mensajes.Models.MensajeRol;
+import Backend.BackendINF281.Mensajes.Models.MensajeVol;
 import Backend.BackendINF281.Mensajes.Repository.MensajeRolRepository;
+import Backend.BackendINF281.Mensajes.Repository.MensajeVolRepository;
 import Backend.BackendINF281.Organizaciones.Repository.OrgBeneficaRepository;
 import Backend.BackendINF281.Organizaciones.Repository.OrgReceptoraRepository;
 import Backend.BackendINF281.Organizaciones.models.OrganizacionBenefica;
@@ -39,6 +43,7 @@ public class MensajesService {
     private final ReceptorRepository RecRepository;
     private final VoluntarioRepository VolRepository;
     private final MensajeRolRepository mRolRepository;
+    private final MensajeVolRepository mVolRepository;
     private final OrgBeneficaRepository orgBeneficaRepository;
     private final OrgReceptoraRepository orgReceptoraRepository;
 
@@ -173,12 +178,29 @@ public class MensajesService {
         return userR;
     }
 
-    public List<UserFormResponse> getUserPosVol(){
-        // TODO Realizar la obtencion de todos los postulantes a Voluntarios
-        return null;
+    public List<UserMensajeRolResponse> getUserPostVolAll(){ //// devuelve a todos los postulantes a voluntario 
+        
+        List<MensajeRol> mensajesR=mRolRepository.findByRol("Voluntario");
+        //System.out.println(mensajesR);
+        List<UserMensajeRolResponse> listUserp=new ArrayList<>();
+
+        for(int i=0;i< mensajesR.size();i++){
+            UserMensajeRolResponse userP=UserMensajeRolResponse.builder()
+                    .idmensaje(mensajesR.get(i).getIdrol())
+                    .nombre(mensajesR.get(i).getPostular().getNombre())
+                    .apellido(mensajesR.get(i).getPostular().getApellido())
+                    .correo(mensajesR.get(i).getPostular().getCorreo())
+                    .telefono(mensajesR.get(i).getPostular().getTelefono())
+                    .rol(mensajesR.get(i).getRol())
+                    .build();
+                listUserp.add(userP);
+                //System.out.println(listUserp);
+        }
+        
+        return listUserp;
     }
 
-    public List<UserMensajeRolResponse> getUserPosDonAll(){
+    public List<UserMensajeRolResponse> getUserPosDonAll(){ 
 
         List<MensajeRol> mensajesR=mRolRepository.findByRol("Donante");
         //System.out.println(mensajesR);
@@ -186,7 +208,7 @@ public class MensajesService {
 
         for(int i=0;i< mensajesR.size();i++){
                 UserMensajeRolResponse userP=UserMensajeRolResponse.builder()
-                    .id(mensajesR.get(i).getIdrol())
+                    .idmensaje(mensajesR.get(i).getIdrol())
                     .nombre(mensajesR.get(i).getPostular().getNombre())
                     .apellido(mensajesR.get(i).getPostular().getApellido())
                     .correo(mensajesR.get(i).getPostular().getCorreo())
@@ -208,7 +230,7 @@ public class MensajesService {
         for(int i=0;i< mensajesR.size();i++){
             if(mensajesR.get(i).getContenido().equals(null) || mensajesR.get(i).getContenido().equals("")){
                 UserMensajeRolResponse userP=UserMensajeRolResponse.builder()
-                    .id(mensajesR.get(i).getIdrol())
+                    .idmensaje(mensajesR.get(i).getIdrol())
                     .nombre(mensajesR.get(i).getPostular().getNombre())
                     .apellido(mensajesR.get(i).getPostular().getApellido())
                     .correo(mensajesR.get(i).getPostular().getCorreo())
@@ -370,7 +392,7 @@ public class MensajesService {
     }
 
     @Transactional
-    public boolean refucedRolUser(Integer idMensajeRol) {
+    public boolean refusedRolUser(Integer idMensajeRol) {
         
         mRolRepository.deleteByIdrol(idMensajeRol);
         MensajeRol verificarR=mRolRepository.findByIdrol(idMensajeRol).orElse(null);
@@ -382,6 +404,125 @@ public class MensajesService {
         return resul;
     }
 
+///////////////////////////// MENSAJE VOLUNTARIOS A COLABORADOR O RESPONSABLE
+
+    public List<UserSubRolVolResponse> getAllPostulantesSubRolVol(){
+        
+        List<UserSubRolVolResponse> salida=new ArrayList<>();
+
+        List<MensajeVol> mensajeV=mVolRepository.findAll();
+        for(int i=0; i<mensajeV.size(); i++){
+
+            Voluntario vol1=mensajeV.get(i).getPostulav();
+            Usuario user1=UserRepository.findByIdUsuario(vol1.getIdvoluntario()).orElse(null);
+            UserSubRolVolResponse userResponse=UserSubRolVolResponse.builder()
+                                .idmensajeSubRol(mensajeV.get(i).getIdpostula())
+                                .nombre(user1.getNombre())
+                                .apellido(user1.getApellido())
+                                .correo(user1.getCorreo())
+                                .telefono(user1.getTelefono())
+                                .estadoMensajeSubRol(mensajeV.get(i).getEstado())
+                                .subrol(mensajeV.get(i).getRol())
+                                .build();   
+            salida.add(userResponse);
+
+        }
+
+        return salida;
+
+    }
+
+    public boolean registrarseRolVol(RolVolRequest request){   /// para que un usuario pueda enviar un mensaje al administrador
+
+        boolean salida=false;
+        Usuario user=UserRepository.findByCorreo(request.getCorreo()).orElse(null);
+        Voluntario vol=VolRepository.findByIdvoluntario(user.getIdUsuario()).orElse(null);
+        MensajeVol mvol=MensajeVol.builder()
+                    .rol(request.getSubrol())
+                    .estado("Pendiente")
+                    .postulav(vol)
+                    .build();
+        mVolRepository.save(mvol);
+
+        MensajeVol VolValid=mVolRepository.findByIdpostula(mvol.getIdpostula()).orElse(null);
+        if(VolValid != null){
+            salida=true;
+        }
+        return salida;
+
+    }
+
+    @Transactional
+    public boolean acceptUserVol(Integer idMensaje) {
+        boolean salida=false;
+        MensajeVol mvol=mVolRepository.findByIdpostula(idMensaje).orElse(null);
+
+        if(mvol != null){
+            String estado=mvol.getEstado();
+            if(estado.equals("Pendiente") || estado.equals("Rechazado")){
+
+                String rol=mvol.getRol();  // rol a la cual quiere postular
+                if(rol.equals("Colaborador") || rol.equals("Responsable")){
+                    String rolv=mvol.getPostulav().getRol();
+
+                    if(rolv.equalsIgnoreCase("") || rolv.equalsIgnoreCase(null) ){
+                        VolRepository.updateRolvol(mvol.getPostulav().getIdvoluntario(), rol);
+                        
+                        mVolRepository.deleteByIdpostula(idMensaje);  // se elimina el mensaje
+                        salida=true;
+                    }else{
+                        String[] rols=rol.split(",");
+                        if(rols.length<2){
+                            if(!rol.equals(rolv)){
+                                VolRepository.updateRolvol(mvol.getPostulav().getIdvoluntario(), rol+","+rolv);
+                                
+                                mVolRepository.deleteByIdpostula(idMensaje);  // se elimina el mensaje
+                                salida=true;
+                            }
+                        }
+
+                        
+                    }
+
+                }
+
+            }
+
+
+        }
+        
+        return salida;
+    }
+
+    @Transactional
+    public boolean refusedUserVol(Integer idmensaje) {//// se rechaza el mensaje del voluntario 
+        boolean salida=false;
+        MensajeVol mvol=mVolRepository.findByIdpostula(idmensaje).orElse(null);
+        if(mvol != null){  
+            mvol.setEstado("Rechazado");
+            mVolRepository.save(mvol);
+            salida=true;
+        }
+        return salida;
+    }
+
+    @Transactional
+    public boolean deleteUserVol(Integer idMensaje) {  /// elimina el mensaje de posutlacion a un rol de voluntario
+        boolean salida=false;
+        MensajeVol mvol=mVolRepository.findByIdpostula(idMensaje).orElse(null);
+        if(mvol != null){
+            String rolv=mvol.getEstado();
+            if(rolv.equals("Rechazado")){
+                mVolRepository.deleteByIdpostula(idMensaje);  // se elimina el mensaje
+                salida=true;
+            }
+        }                 
+        return salida;
+    }
+
+
+
+////////////////////////////////////////////////////////////////////////////
 
 
 }

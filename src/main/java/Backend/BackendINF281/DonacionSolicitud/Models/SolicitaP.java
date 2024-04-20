@@ -1,6 +1,7 @@
 package Backend.BackendINF281.DonacionSolicitud.Models;
 
 import Backend.BackendINF281.Inventario.Models.Producto;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -23,12 +24,12 @@ import lombok.NoArgsConstructor;
 public class SolicitaP {
 
     @Id
-    @ManyToOne
+    @ManyToOne( cascade = {CascadeType.ALL}  )
     @JoinColumn(name = "id_producto")
     private Producto producto;
 
     @Id
-    @ManyToOne
+    @ManyToOne( cascade = {CascadeType.ALL}  )
     @JoinColumn(name = "id_solicitud")
     private Solicitud solicitud;
 

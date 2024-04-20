@@ -1,5 +1,14 @@
 package Backend.BackendINF281.DonacionSolicitud.Repository;
 
-public interface SolicitudRepository {
-// TODO Realizar el recpositorio de solicitud
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import Backend.BackendINF281.DonacionSolicitud.Models.Solicitud;
+
+
+public interface SolicitudRepository extends JpaRepository<Solicitud,Integer>{
+
+    public Optional<Solicitud> findByIdsolicitud(Integer insolicitud);
+
 }

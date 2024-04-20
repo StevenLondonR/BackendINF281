@@ -7,6 +7,7 @@ import java.util.List;
 import Backend.BackendINF281.modulo_usuario.models.Receptor;
 import Backend.BackendINF281.modulo_usuario.models.Usuario;
 import Backend.BackendINF281.modulo_usuario.models.Voluntario;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -52,15 +53,15 @@ public class Solicitud {
     @Column(name = "nro_voluntarios")
     private Integer nroVoluntariosC;
 
-    @ManyToOne
+    @ManyToOne( cascade = {CascadeType.ALL}  )
     @JoinColumn(name="id_usuario")
     private Receptor usuario;
     
-    @ManyToOne
+    @ManyToOne( cascade = {CascadeType.ALL}  )
     @JoinColumn(name="id_voluntario")
     private Voluntario voluntario;
 
-    @ManyToMany
+    @ManyToMany( cascade = {CascadeType.ALL}  )
     @JoinTable(
         name = "entrega",
         joinColumns = @JoinColumn(name="id_solicitud", referencedColumnName = "id_solicitud" ),
@@ -68,8 +69,11 @@ public class Solicitud {
     )
     private List<Voluntario> listVoluntariosColab; /// lista de voluntarios colaboradores
 
+    @OneToMany(mappedBy = "solicitud", cascade = {CascadeType.ALL}  ,orphanRemoval= true )
+    private List<SolicitaP> listRelacionProd;
+    
+    @OneToMany(mappedBy = "solicitud", cascade = {CascadeType.ALL}  ,orphanRemoval= true )
+    private List<SolicitaA> listRelacionAli;
 
-    @OneToMany(mappedBy = "solicitud")
-    private List<SolicitaA> listRelacionProd;
 
 }

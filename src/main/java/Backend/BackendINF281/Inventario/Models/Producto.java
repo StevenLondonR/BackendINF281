@@ -4,6 +4,8 @@ import java.util.List;
 
 import Backend.BackendINF281.DonacionSolicitud.Models.ContieneP;
 import Backend.BackendINF281.DonacionSolicitud.Models.SolicitaP;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,7 +30,8 @@ public class Producto {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_producto;
+    @Column(name="id_producto")
+    private Integer idproducto;
 
     private String estado;
 
@@ -36,13 +39,13 @@ public class Producto {
 
     private Integer cantidad;
 
-    @OneToMany(mappedBy = "producto")
+    @OneToMany(mappedBy = "producto", cascade = {CascadeType.ALL}  ,orphanRemoval= true )
     private List<ContieneP> listRelacionDon;
 
-    @OneToMany(mappedBy = "producto")
+    @OneToMany(mappedBy = "producto", cascade = {CascadeType.ALL}  ,orphanRemoval= true )
     private List<SolicitaP> listRelacionSol;
 
-    @OneToMany(mappedBy = "producto")
+    @OneToMany(mappedBy = "producto", cascade = {CascadeType.ALL}  ,orphanRemoval= true )
     private List<deshechaP> listHistorialProd;
 
 

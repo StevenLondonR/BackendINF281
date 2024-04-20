@@ -1,6 +1,7 @@
 package Backend.BackendINF281.DonacionSolicitud.Models;
 
 import Backend.BackendINF281.Inventario.Models.Alimento;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -23,12 +24,12 @@ import lombok.NoArgsConstructor;
 public class ContieneA {
     
     @Id
-    @ManyToOne
+    @ManyToOne( cascade = {CascadeType.ALL}  )
     @JoinColumn(name="id_alimento")
     private Alimento alimento;
 
     @Id
-    @ManyToOne
+    @ManyToOne( cascade = {CascadeType.ALL})
     @JoinColumn(name="id_donacion")
     private Donacion donacion;
     

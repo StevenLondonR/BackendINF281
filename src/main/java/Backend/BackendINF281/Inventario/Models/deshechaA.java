@@ -1,5 +1,6 @@
 package Backend.BackendINF281.Inventario.Models;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -23,12 +24,12 @@ public class deshechaA {
 
     
     @Id
-    @ManyToOne
+    @ManyToOne( cascade = {CascadeType.ALL} )
     @JoinColumn(name="id_alimento")
     private Alimento alimento;
 
     @Id
-    @ManyToOne
+    @ManyToOne( cascade = {CascadeType.ALL} )
     @JoinColumn(name="id_historial")
     private HistorialDeshecho historialDeshecho;
 

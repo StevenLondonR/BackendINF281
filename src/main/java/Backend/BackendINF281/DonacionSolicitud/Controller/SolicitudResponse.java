@@ -9,18 +9,18 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DonacionResponse {
+public class SolicitudResponse {
 
-    Integer idDonacion;  // de la entidad usuario
+    Integer idSolicitud;  // de la entidad usuario
     String nombreU;      // de la entidad usuario
     String apellidoU;    // de la entidad usuario
     Integer telefonoU;   // de la entidad usuario
-    Integer cantidad;  // de la entidad donacion
-    String tipo_ap;     // de la entidad donacion
-    String fechaHoraProg; // de la entidad donacion
+    Integer cantidad;  // de la entidad Solicitud
+    String tipo_ap;     // de la entidad Solicitud
+    String fechaHoraProg; // de la entidad Solicitud
     String estado;  // SinResponsable, Pendiente, Realizado
     String correoResponsable;  // de la entidad Voluntario
-    Integer nroRequeridoCol;   // de la entidad donacion
-    Integer nroColaboradores;  // de la entidad donacion
+    Integer nroRequeridoCol;   // de la entidad Solicitud
+    Integer nroColaboradores;  // de la entidad Solicitud
 
 }

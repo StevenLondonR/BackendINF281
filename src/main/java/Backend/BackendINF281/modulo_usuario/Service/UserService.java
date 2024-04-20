@@ -11,6 +11,7 @@ import Backend.BackendINF281.Mensajes.Repository.MensajeVolRepository;
 import Backend.BackendINF281.Organizaciones.models.OrganizacionBenefica;
 import Backend.BackendINF281.Organizaciones.models.OrganizacionReceptora;
 import Backend.BackendINF281.modulo_usuario.Controller.DonanteAllReponse;
+import Backend.BackendINF281.modulo_usuario.Controller.ReceptorAllResponse;
 import Backend.BackendINF281.modulo_usuario.Controller.UserRequest;
 import Backend.BackendINF281.modulo_usuario.Controller.UserSimpleResponse;
 import Backend.BackendINF281.modulo_usuario.Controller.VoluntarioAllResponse;
@@ -87,8 +88,7 @@ public class UserService {
 
         return null;
     }
-
-    //// //////// DONANTE
+////////////////////////////////// DONANTE
 
     public List<DonanteAllReponse> listAllDonantes(){
         
@@ -117,6 +117,37 @@ public class UserService {
         return listAllD;
 
     }
+
+////////////////////////////////////RECEPTORES
+
+public List<ReceptorAllResponse> listAllReceptor(){
+        
+    List<ReceptorAllResponse> listAllR = new ArrayList<>();
+
+    List<Receptor> LRec1=receptorRepository.findAll();
+
+    for(int i=0;i<LRec1.size();i++){
+        Usuario user=usuarioRepository.findByIdUsuario(LRec1.get(i).getIdusuario()).orElse(null);
+        String nomOrg="";
+        if(LRec1.get(i).getOrgRec() != null){
+            nomOrg=LRec1.get(i).getOrgRec().getNombre_org();
+        }
+
+        ReceptorAllResponse salidaDResponse=ReceptorAllResponse.builder()
+                        .nombreUser(user.getNombre())
+                        .apellidoUser(user.getApellido())
+                        .correo(user.getCorreo())
+                        .telefono(user.getTelefono())
+                        .estado(user.getEstado())
+                        .nombreOrg(nomOrg)
+                        .build();
+        listAllR.add(salidaDResponse);
+    }
+
+    return listAllR;
+
+}
+
 //////////// voluntarios 
 
     public List<VoluntarioAllResponse> obtenerAllVoluntarios(){

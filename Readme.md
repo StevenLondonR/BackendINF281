@@ -3,6 +3,27 @@
 
 **El api-rest funciona con java 21** 
 
+# PARA ACCEDER A LA NUEVA DOCUMENTACION, SE TIENEQUE 
+- CLONAR EL REPOSITORIO EN LA RAMA MASTER  
+- EJECUTAR EL BACKEND (BASE DE DATOS YA FUNCIONANDO)
+- DESPUES DE DEPLEGARSE ACCEDER A LA DIRECCION: http://localhost:8090/swagger-ui/index.html   
+
+USUARIOS REGISTRADOS EN LA BASE DE DATOS 
+-------------------------------------------------------------------------
+| Usuario | Password | Rol | 
+|--|--|--|
+| admin@admin.com | 123456 | Administrador |
+| Lon@gai.com | 651984 | Voluntario |
+| Londres@gmail.com | 651984  |  | 
+| London@gmail.com | 651984 | Donante |
+| Minion@gmail.com | 987654 | Donante |
+| Lones@gail.com | 651984 | Voluntario |
+| Stev@gmail.com | 123456 | Voluntario |
+| rowell@gmail.com | 123456 | Receptor |
+| jhonson@gmail.com | 123456 | Receptor |
+| tony@gmail.com | 123456 | Voluntario |
+-------------------------------------------------------------------------
+
 ## NOTA: Para la tabla usuario, el atributo correo no se puede repetir
 ## NOTA: En la base de datos existe un usuario administrador con los siguientes datos   
 ## **"correo": "admin@admin.com" ,  "password": "123456"**  

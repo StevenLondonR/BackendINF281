@@ -94,9 +94,9 @@ public class MensajesService {
         
         for(int i=0;i<userp.size();i++){
             String rol="";
-            Donante don=DonRepository.findByIdusuario(userp.get(i).getId()).orElse(null);
-            Voluntario vol=VolRepository.findByIdvoluntario(userp.get(i).getId()).orElse(null);
-            Receptor rec=RecRepository.findByIdusuario(userp.get(i).getId()).orElse(null);
+            Donante don=DonRepository.findByIdusuario(userp.get(i).getIdUser()).orElse(null);
+            Voluntario vol=VolRepository.findByIdvoluntario(userp.get(i).getIdUser()).orElse(null);
+            Receptor rec=RecRepository.findByIdusuario(userp.get(i).getIdUser()).orElse(null);
             
             if(don != null){
                 rol=rol+"Donante";
@@ -117,7 +117,7 @@ public class MensajesService {
             }
 
             UserFormResponse user=UserFormResponse.builder()
-                        .id(userp.get(i).getId())
+                        .id(userp.get(i).getIdUser())
                         .nombre(userp.get(i).getNombre())
                         .apellido(userp.get(i).getApellido())
                         .correo(userp.get(i).getCorreo())
@@ -139,9 +139,9 @@ public class MensajesService {
         
         for(int i=0;i<userp.size();i++){
             String rol="";
-            Donante don=DonRepository.findByIdusuario(userp.get(i).getId()).orElse(null);
-            Voluntario vol=VolRepository.findByIdvoluntario(userp.get(i).getId()).orElse(null);
-            Receptor rec=RecRepository.findByIdusuario(userp.get(i).getId()).orElse(null);
+            Donante don=DonRepository.findByIdusuario(userp.get(i).getIdUser()).orElse(null);
+            Voluntario vol=VolRepository.findByIdvoluntario(userp.get(i).getIdUser()).orElse(null);
+            Receptor rec=RecRepository.findByIdusuario(userp.get(i).getIdUser()).orElse(null);
             
             if(don != null){
                 rol=rol+"Donante";
@@ -162,7 +162,7 @@ public class MensajesService {
             }
 
             UserFormResponse user=UserFormResponse.builder()
-                        .id(userp.get(i).getId())
+                        .id(userp.get(i).getIdUser())
                         .nombre(userp.get(i).getNombre())
                         .apellido(userp.get(i).getApellido())
                         .correo(userp.get(i).getCorreo())
@@ -274,18 +274,77 @@ public class MensajesService {
 
     }
 
-    public List<UsuarioPostResponse> getUserPosRecAll(){
-        // TODO Realizar la obtencion de todos los postulantes a receptor
-        return null;
+    public List<UserMensajeRolResponse> getUserPosRecAll(){
+        
+        List<MensajeRol> mensajesR=mRolRepository.findByRol("Receptor");
+        //System.out.println(mensajesR);
+        List<UserMensajeRolResponse> listUserp=new ArrayList<>();
+
+        for(int i=0;i< mensajesR.size();i++){
+                UserMensajeRolResponse userP=UserMensajeRolResponse.builder()
+                    .idmensaje(mensajesR.get(i).getIdrol())
+                    .nombre(mensajesR.get(i).getPostular().getNombre())
+                    .apellido(mensajesR.get(i).getPostular().getApellido())
+                    .correo(mensajesR.get(i).getPostular().getCorreo())
+                    .telefono(mensajesR.get(i).getPostular().getTelefono())
+                    .rol(mensajesR.get(i).getRol())
+                    .build();
+                listUserp.add(userP);
+                //System.out.println(listUserp);
+        }
+        
+        return listUserp;
     }
 
-    public List<UsuarioPostResponse> getUserPosRecSinOrg(){
-        // TODO Realizar la obtencion de todos los postulantes a receptor sin organizaciones
-        return null;
+    public List<UserMensajeRolResponse> getUserPosRecSinOrg(){
+        List<MensajeRol> mensajesR=mRolRepository.findByRol("Receptor");
+
+        List<UserMensajeRolResponse> listUserp=new ArrayList<>();
+
+        for(int i=0;i< mensajesR.size();i++){
+            if(mensajesR.get(i).getContenido().equals(null) || mensajesR.get(i).getContenido().equals("")){
+                UserMensajeRolResponse userP=UserMensajeRolResponse.builder()
+                    .idmensaje(mensajesR.get(i).getIdrol())
+                    .nombre(mensajesR.get(i).getPostular().getNombre())
+                    .apellido(mensajesR.get(i).getPostular().getApellido())
+                    .correo(mensajesR.get(i).getPostular().getCorreo())
+                    .telefono(mensajesR.get(i).getPostular().getTelefono())
+                    .rol(mensajesR.get(i).getRol())
+                    .build();
+                listUserp.add(userP);
+            }
+
+        }
+        return listUserp;
     }
     public List<UserOrgPostResponse> getUserPosRecOrg(){
-        // TODO Realizar la obtencion de todos los postulantes a receptor con organizaciones 
-        return null;
+        List<MensajeRol> mensajesR=mRolRepository.findByRol("Receptor");
+
+        List<UserOrgPostResponse> listUserp=new ArrayList<>();
+
+        for(int i=0;i< mensajesR.size();i++){   
+                
+                String prueba=mensajesR.get(i).getContenido();
+
+                String[] Org=prueba.split(",");
+            if(Org.length>1){
+                String nombreOrg=Org[2];
+                
+                UserOrgPostResponse userP=UserOrgPostResponse.builder()
+                    .id(mensajesR.get(i).getIdrol())
+                    .nombre(mensajesR.get(i).getPostular().getNombre())
+                    .apellido(mensajesR.get(i).getPostular().getApellido())
+                    .correo(mensajesR.get(i).getPostular().getCorreo())
+                    .telefono(mensajesR.get(i).getPostular().getTelefono())
+                    .rol(mensajesR.get(i).getRol())
+                    .nombreOrg(nombreOrg)
+                    .build();
+                listUserp.add(userP);
+            }
+
+        }
+        return listUserp;
+
     }
 
     public Boolean escogerRol(escogerRolRequest request) {
@@ -523,6 +582,8 @@ public class MensajesService {
 
 
 ////////////////////////////////////////////////////////////////////////////
+
+
 
 
 }

@@ -11,10 +11,26 @@ import java.util.Locale;
 
 import org.springframework.stereotype.Service;
 
+import Backend.BackendINF281.DonacionSolicitud.Controller.DeleteDonacionRequest;
 import Backend.BackendINF281.DonacionSolicitud.Controller.DonacionRequest;
 import Backend.BackendINF281.DonacionSolicitud.Controller.DonacionResponse;
+import Backend.BackendINF281.DonacionSolicitud.Controller.EditDonacionRequest;
+import Backend.BackendINF281.DonacionSolicitud.Models.ContieneA;
+import Backend.BackendINF281.DonacionSolicitud.Models.ContieneP;
 import Backend.BackendINF281.DonacionSolicitud.Models.Donacion;
+import Backend.BackendINF281.DonacionSolicitud.Models.Solicitud;
+import Backend.BackendINF281.DonacionSolicitud.Repository.ContieneARepository;
+import Backend.BackendINF281.DonacionSolicitud.Repository.ContienePRepository;
 import Backend.BackendINF281.DonacionSolicitud.Repository.DonacionRepository;
+import Backend.BackendINF281.DonacionSolicitud.Repository.SolicitaARepository;
+import Backend.BackendINF281.DonacionSolicitud.Repository.SolicitaPRepository;
+import Backend.BackendINF281.Inventario.Controller.AlimentoFinishResponse;
+import Backend.BackendINF281.Inventario.Controller.ProductoFinishResponse;
+import Backend.BackendINF281.Inventario.Models.Alimento;
+import Backend.BackendINF281.Inventario.Models.Producto;
+import Backend.BackendINF281.Inventario.Repository.AlimentoRepository;
+import Backend.BackendINF281.Inventario.Repository.ProductoRepository;
+import Backend.BackendINF281.Mensajes.Controller.RolVolRequest;
 import Backend.BackendINF281.modulo_usuario.Controller.UserRequest;
 import Backend.BackendINF281.modulo_usuario.models.Donante;
 import Backend.BackendINF281.modulo_usuario.models.Usuario;
@@ -22,6 +38,7 @@ import Backend.BackendINF281.modulo_usuario.models.Voluntario;
 import Backend.BackendINF281.modulo_usuario.repository.DonanteRepository;
 import Backend.BackendINF281.modulo_usuario.repository.UsuarioRepository;
 import Backend.BackendINF281.modulo_usuario.repository.VoluntarioRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -32,8 +49,13 @@ public class DonacionService {
     private final UsuarioRepository usuarioRepository;
     private final DonanteRepository donanteRepository;
     private final VoluntarioRepository voluntarioRepository;
+    private final AlimentoRepository alimentoRepository;
+    private final ProductoRepository productoRepository;
+    private final ContieneARepository contieneARepository;
+    private final ContienePRepository contienePRepository;
+    
 
-    public List<DonacionResponse> getAll() throws ParseException {
+    public List<DonacionResponse> getAll() throws ParseException { /// lista todas las donaciones 
         List<Donacion> listDon=donacionRepository.findAll();
         List<DonacionResponse> listResponse=new ArrayList<>();
         for(int i=0;i< listDon.size();i++){
@@ -290,11 +312,123 @@ public class DonacionService {
 
     }
 
-    public boolean deleteDon(UserRequest request) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteDon'");
+    @Transactional
+    public boolean deleteDonacion(DeleteDonacionRequest request) {
+        boolean salida=false;
+
+        Donacion donacion1=donacionRepository.findByIddonacion(request.getIdDonacion()).orElse(null);
+        Usuario user=usuarioRepository.findByCorreo(request.getCorreo()).orElse(null);
+        if(user != null){
+            Donante don1=donanteRepository.findByIdusuario(user.getIdUsuario()).orElse(null);
+            if(donacion1 != null && don1 != null && don1.getListDon().contains(donacion1)){
+                if(!verificarEstadoDonacion(donacion1).equalsIgnoreCase("Realizado")){
+                    donacionRepository.delete(donacion1);
+                    if(donacionRepository.findByIddonacion(request.getIdDonacion()) == null){
+                        salida = true;
+                    }
+                }
+            }
+        }
+
+        return salida;
     }
 
+    @Transactional
+    public boolean updateUserDonacion(EditDonacionRequest request){
+
+        boolean salida=false;
     
+        Usuario user=usuarioRepository.findByCorreo(request.getCorreo()).orElse(null);
+        if(user!=null){
+            Donante don1=donanteRepository.findByIdusuario(user.getIdUsuario()).orElse(null);
+            Donacion donacion1=donacionRepository.findByIddonacion(request.getIdDonacion()).orElse(null);
+
+            if( don1 != null && donacion1 != null && don1.getListDon().contains(donacion1) ){
+
+                donacion1=editDon(donacion1,request);
+                donacionRepository.save(donacion1);
+                salida = true;
+            }
+
+        }
+    
+        return salida;
+    }
+
+    private Donacion editDon(Donacion donacion1, EditDonacionRequest request) {
+        
+        if(request.getCantidad() != 0 || request.getCantidad() != null){
+            donacion1.setCantidad(request.getCantidad());
+        }
+        if(!request.getTipo_ap().equalsIgnoreCase("") || !request.getTipo_ap().equalsIgnoreCase(null)){
+            donacion1.setTipo_ap(request.getTipo_ap());
+        }
+        if(!request.getFechaHoraRecogida().equalsIgnoreCase("") || !request.getFechaHoraRecogida().equalsIgnoreCase(null)){
+            Calendar p=transformarFechaHora(request.getFechaHoraRecogida());
+            if(p!=null){
+                donacion1.setFecha_hora_adquisicion(p);
+            }
+        }
+
+        return donacion1;
+    }
+        
+////////////////////////////////////////////////////////////////////// ALIMENTO Y PRODUCTO /////////////////////////////////////////////////
+    @Transactional
+    public boolean terminarDonacionAlimentos(List<AlimentoFinishResponse> listaAli){
+        boolean salida=false;
+        List<Alimento> listA=alimentoRepository.findAll();
+        for(int i=0;i<listaAli.size();i++){
+
+            Alimento ali=Alimento.builder()
+                    .fechaVenc(transformarFechaHora(listaAli.get(i).getFecha_Vencimiento()))
+                    .cantidad(listaAli.get(i).getCantidad())
+                    .tipo(listaAli.get(i).getTipo())
+                    .estado(listaAli.get(i).getEstado())
+                    .build();
+            alimentoRepository.save(ali);
+            Donacion don1=donacionRepository.findByIddonacion(listaAli.get(i).getIddonacionOsolicitud()).orElse(null);
+            if(don1 != null){
+                ContieneA contA=ContieneA.builder()
+                            .alimento(ali)
+                            .donacion(don1)
+                            .cantidadA(listaAli.get(i).getCantidad())
+                            .build();
+                contieneARepository.save(contA);
+                salida=true;
+            }
+
+        }
+
+        return salida;
+    }
+
+    @Transactional
+    public boolean terminarDonacionProductos(List<ProductoFinishResponse> listaAli){
+        boolean salida=false;
+        for(int i=0;i<listaAli.size();i++){
+
+            Producto pro=Producto.builder()
+                    .cantidad(listaAli.get(i).getCantidad())
+                    .tipo(listaAli.get(i).getTipo())
+                    .estado(listaAli.get(i).getEstado())
+                    .build();
+            productoRepository.save(pro);
+            Donacion don1=donacionRepository.findByIddonacion(listaAli.get(i).getIddonacionOsolicitud()).orElse(null);
+            if(don1 != null){
+                ContieneP contP=ContieneP.builder()
+                            .producto(pro)
+                            .donacion(don1)
+                            .cantidadP(listaAli.get(i).getCantidad())
+                            .build();
+                contienePRepository.save(contP);
+                salida=true;
+            }
+
+        }
+
+        return salida;
+    }
+
 
 }

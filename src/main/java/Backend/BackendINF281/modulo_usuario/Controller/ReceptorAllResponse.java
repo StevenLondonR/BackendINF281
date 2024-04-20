@@ -9,13 +9,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UsuarioPostResponse {
-
-    Integer idUser;
-    String nombre;
-    String apellido;
+public class ReceptorAllResponse {
+    String nombreUser;
+    String apellidoUser;
     String correo;
-    Integer telefono;
+    Integer telefono; 
     String estado;
+    String nombreOrg;
 
 }

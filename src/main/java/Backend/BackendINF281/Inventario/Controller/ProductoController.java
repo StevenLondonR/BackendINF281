@@ -13,7 +13,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
-@Tag(name="Solicitud_Controller(/solicitudes)")
+@Tag(name="Inventario de productos(/productos)")
 @RestController
 @RequestMapping("/productos")
 @RequiredArgsConstructor
@@ -23,11 +23,11 @@ public class ProductoController {
     private final ProductoService productorService;
 
     @Operation(
-        summary = "Se obtienen todos los productos ",
+        summary = "Se obtienen todos los productos del inventario.",
         description = ""
     )
     @GetMapping(value="getAllProductos")
-    public List<ProductoResponse> getAllAlimentos() throws ParseException {
+    public List<ProductoResponse> getAllProductos() throws ParseException {
         return productorService.getAllProductos();
     }
 

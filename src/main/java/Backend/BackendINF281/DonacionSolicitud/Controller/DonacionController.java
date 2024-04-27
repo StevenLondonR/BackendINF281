@@ -43,7 +43,7 @@ public class DonacionController {
     
     @Operation(
         summary = "Obtener todas las donaciones realizadas",
-        description = "En salida: el atributo 'estado' puede tener los siguientes valores: SinResponsable, Pendiente, Realizado. Los atributos nombreU, apellidoU, telefonoU son datos el usuario donante"
+        description = "En salida: el atributo 'estado' puede tener los siguientes valores: Realizado. Los atributos nombreU, apellidoU, telefonoU son datos el usuario donante"
     )
     @GetMapping(value="getDonRealizadas")
     public List<DonacionResponse> getDonRealizadas() throws ParseException {
@@ -52,7 +52,7 @@ public class DonacionController {
     
     @Operation(
         summary = "Obtener las donaciones realizadas de un usuario donante",
-        description = "En salida: el atributo 'estado' puede tener los siguientes valores: SinResponsable, Pendiente, Realizado. Los atributos nombreU, apellidoU, telefonoU son datos el usuario donante"
+        description = "En salida: el atributo 'estado' puede tener los siguientes valores: Realizado. Los atributos nombreU, apellidoU, telefonoU son datos el usuario donante"
     )
     @PostMapping(value="getDonRealizadas")
     public List<DonacionResponse> getDonRealizadasU(@RequestBody UserRequest User) throws ParseException {
@@ -61,7 +61,7 @@ public class DonacionController {
 
     @Operation(
         summary = "Obtener las donaciones no realizadas",
-        description = "En salida: el atributo 'estado' puede tener los siguientes valores: SinResponsable, Pendiente, Realizado. Los atributos nombreU, apellidoU, telefonoU son datos el usuario donante"
+        description = "En salida: el atributo 'estado' puede tener los siguientes valores: SinResponsable, Pendiente, Realizad. Los atributos nombreU, apellidoU, telefonoU son datos el usuario donante"
     )
     @GetMapping(value="getDonNoRealizadas")
     public List<DonacionResponse> getDonNoRealizadasU() throws ParseException {
@@ -82,7 +82,7 @@ public class DonacionController {
     
     @Operation(
         summary = "Realizar una donacion, accion que puede realizar un Usuario Donante",
-        description = "En la entrada los atributos: correo de usuario donante y fechaHoraRecogida en el siguiente formato dd/MM/yyyy/HH/mm "
+        description = "En la entrada los atributos: correo de usuario donante y fechaHoraRecogida en el siguiente formato dd/MM/yyyy/HH/mm   =>  Esta accion modificara la tabla donacion  "
     )
     @PostMapping(value="realizarDonacion")
     public boolean realizarDonacion(@RequestBody DonacionRequest request) {
@@ -91,7 +91,7 @@ public class DonacionController {
     
     @Operation(
         summary = "Usuario donante puede eliminar una donacion que no fue 'Realizada' ",
-        description = ""
+        description = "Esta accion modificara la tabla Donacion"
     )
     @PostMapping(value="deleteDonacion")
     public boolean deleteDonacion(@RequestBody DeleteDonacionRequest request){
@@ -100,7 +100,7 @@ public class DonacionController {
 
     @Operation(
         summary = "Usuario donante puede editar una donacion que no fue realizada",
-        description = "En la entrada los atributos: correo de usuario donante y fechaHoraRecogida en el siguiente formato dd/MM/yyyy/HH/mm "
+        description = "En la entrada los atributos: correo de usuario donante y fechaHoraRecogida en el siguiente formato dd/MM/yyyy/HH/mm   =>  Esta accion modifica la tabla Donacion "
     )
     @PatchMapping(value="editarDonacion")
     public boolean editarDonacion(@RequestBody EditDonacionRequest request){
@@ -129,18 +129,17 @@ public class DonacionController {
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
     @Operation(
-        summary = "Para terminar una Donacion y realizar un registro de los alimentos",
-        description = ""
+        summary = "Para concluir una Donacion y realizar un registro de los alimentos",
+        description = "Al concluir una Donacion se registraran una lista de alimentos. Esta accion modifca las siguientes tablas: Alimento, ContieneA "
     )
     @PostMapping(value="terminarDonacionAlimentos")
     public boolean terminarDonacionAlimentos(@RequestBody List<AlimentoFinishResponse> listaAli) throws ParseException {
         return donService.terminarDonacionAlimentos(listaAli);
     }
 
-
     @Operation(
         summary = "Para terminar una Donacion y realizar un registro de los Productos",
-        description = ""
+        description = "Al concluir una Donacion se registraran una lista de Productos. Esta accion modifica las siguientes tablas: Producto y ContieneP "
     )
     @PostMapping(value="terminarDonacionProductos")
     public boolean terminarDonacionProductos(@RequestBody List<ProductoFinishResponse> listaAli) throws ParseException {

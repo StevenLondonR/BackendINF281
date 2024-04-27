@@ -53,11 +53,11 @@ public class Solicitud {
     @Column(name = "nro_voluntarios")
     private Integer nroVoluntariosC;
 
-    @ManyToOne( cascade = {CascadeType.ALL}  )
+    @ManyToOne
     @JoinColumn(name="id_usuario")
     private Receptor usuario;
     
-    @ManyToOne( cascade = {CascadeType.ALL}  )
+    @ManyToOne
     @JoinColumn(name="id_voluntario")
     private Voluntario voluntario;
 

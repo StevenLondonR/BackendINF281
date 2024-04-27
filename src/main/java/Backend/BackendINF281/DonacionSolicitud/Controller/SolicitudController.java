@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import Backend.BackendINF281.DonacionSolicitud.Services.SolicitudService;
 import Backend.BackendINF281.Inventario.Controller.AlimentoFinishResponse;
+import Backend.BackendINF281.Inventario.Controller.AlimentoSolFinishResponse;
 import Backend.BackendINF281.Inventario.Controller.ProductoFinishResponse;
+import Backend.BackendINF281.Inventario.Controller.ProductoSolFinishResponse;
 import Backend.BackendINF281.modulo_usuario.Controller.UserRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -135,7 +137,7 @@ public class SolicitudController {
         description = ""
     )
     @PostMapping(value="terminarSolicitudAlimentos")
-    public boolean terminarSolicitudAlimentos(@RequestBody List<AlimentoFinishResponse> listaAli) throws ParseException {
+    public boolean terminarSolicitudAlimentos(@RequestBody List<AlimentoSolFinishResponse> listaAli) throws ParseException {
         return solicitudService.terminarSolicitudAlimentos(listaAli);
     }
 
@@ -145,8 +147,8 @@ public class SolicitudController {
         description = ""
     )
     @PostMapping(value="terminarSolicitudProdcuctos")
-    public boolean terminarSolicitudProdcuctos(@RequestBody List<ProductoFinishResponse> listaAli) throws ParseException {
-        return solicitudService.terminarSolicitudProductos(listaAli);
+    public boolean terminarSolicitudProdcuctos(@RequestBody List<ProductoSolFinishResponse> listaProd) throws ParseException {
+        return solicitudService.terminarSolicitudProductos(listaProd);
     }
 
 

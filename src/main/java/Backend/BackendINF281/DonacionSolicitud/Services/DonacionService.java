@@ -323,9 +323,8 @@ public class DonacionService {
             if(donacion1 != null && don1 != null && don1.getListDon().contains(donacion1)){
                 if(!verificarEstadoDonacion(donacion1).equalsIgnoreCase("Realizado")){
                     donacionRepository.delete(donacion1);
-                    if(donacionRepository.findByIddonacion(request.getIdDonacion()) == null){
-                        salida = true;
-                    }
+                    salida = true;
+                    
                 }
             }
         }
@@ -377,7 +376,7 @@ public class DonacionService {
     @Transactional
     public boolean terminarDonacionAlimentos(List<AlimentoFinishResponse> listaAli){
         boolean salida=false;
-        List<Alimento> listA=alimentoRepository.findAll();
+        
         for(int i=0;i<listaAli.size();i++){
 
             Alimento ali=Alimento.builder()
@@ -387,7 +386,7 @@ public class DonacionService {
                     .estado(listaAli.get(i).getEstado())
                     .build();
             alimentoRepository.save(ali);
-            Donacion don1=donacionRepository.findByIddonacion(listaAli.get(i).getIddonacionOsolicitud()).orElse(null);
+            Donacion don1=donacionRepository.findByIddonacion(listaAli.get(i).getIddonacion()).orElse(null);
             if(don1 != null){
                 ContieneA contA=ContieneA.builder()
                             .alimento(ali)
@@ -414,7 +413,7 @@ public class DonacionService {
                     .estado(listaAli.get(i).getEstado())
                     .build();
             productoRepository.save(pro);
-            Donacion don1=donacionRepository.findByIddonacion(listaAli.get(i).getIddonacionOsolicitud()).orElse(null);
+            Donacion don1=donacionRepository.findByIddonacion(listaAli.get(i).getIddonacion()).orElse(null);
             if(don1 != null){
                 ContieneP contP=ContieneP.builder()
                             .producto(pro)

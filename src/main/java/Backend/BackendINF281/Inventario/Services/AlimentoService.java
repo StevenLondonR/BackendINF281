@@ -30,15 +30,17 @@ public class AlimentoService {
 
         List<Alimento> listA=alimentoRepository.findAll();
         for(int i=0;i<listA.size();i++){
-
-            AlimentoResponse a=AlimentoResponse.builder()
+            if(listA.get(i).getCantidad()>0){
+                AlimentoResponse a=AlimentoResponse.builder()
                         .idAlimento(listA.get(i).getIdalimento())
                         .tipo(listA.get(i).getTipo())
                         .cantidad(listA.get(i).getCantidad())
                         .fecha_Vencimiento(convertGregorianDate(listA.get(i).getFechaVenc()))
                         .estado(listA.get(i).getEstado())
                         .build();
-            listAll.add(a);
+                listAll.add(a);
+            }
+            
 
         }
 

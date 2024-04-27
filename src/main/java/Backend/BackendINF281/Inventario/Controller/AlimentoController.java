@@ -13,7 +13,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
-@Tag(name="Solicitud_Controller(/solicitudes)")
+@Tag(name="Inventario de Alimentos(/alimentos)")
 @RestController
 @RequestMapping("/alimentos")
 @RequiredArgsConstructor
@@ -23,7 +23,7 @@ public class AlimentoController {
     private final AlimentoService alimentoService;
 
     @Operation(
-        summary = "Se obtienen todos los alimentos ",
+        summary = "Se obtienen todos los alimentos que se tienen en inventario",
         description = ""
     )
     @GetMapping(value="getAllAlimentos")

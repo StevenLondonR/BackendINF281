@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductoFinishResponse {
-    Integer iddonacionOsolicitud;
+    Integer iddonacion;
     String tipo;
     Integer cantidad;
     String estado;

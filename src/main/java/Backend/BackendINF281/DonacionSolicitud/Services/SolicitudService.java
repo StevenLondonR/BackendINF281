@@ -24,7 +24,9 @@ import Backend.BackendINF281.DonacionSolicitud.Repository.SolicitaARepository;
 import Backend.BackendINF281.DonacionSolicitud.Repository.SolicitaPRepository;
 import Backend.BackendINF281.DonacionSolicitud.Repository.SolicitudRepository;
 import Backend.BackendINF281.Inventario.Controller.AlimentoFinishResponse;
+import Backend.BackendINF281.Inventario.Controller.AlimentoSolFinishResponse;
 import Backend.BackendINF281.Inventario.Controller.ProductoFinishResponse;
+import Backend.BackendINF281.Inventario.Controller.ProductoSolFinishResponse;
 import Backend.BackendINF281.Inventario.Models.Alimento;
 import Backend.BackendINF281.Inventario.Models.Producto;
 import Backend.BackendINF281.Inventario.Repository.AlimentoRepository;
@@ -367,9 +369,10 @@ public class SolicitudService {
         if(user != null){
             Receptor rec1=receptorRepository.findByIdusuario(user.getIdUsuario()).orElse(null);
             if(solicitud1 != null && rec1 != null && rec1.getListSolicitudesR().contains(solicitud1)){
+                
                 if(!verificarEstadoSolicitud(solicitud1).equalsIgnoreCase("Realizado")){
                     solicitudRepository.delete(solicitud1);
-
+                    salida=true;
                 }
             }
         }
@@ -379,58 +382,66 @@ public class SolicitudService {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 @Transactional
-    public boolean terminarSolicitudAlimentos(List<AlimentoFinishResponse> listaAli){
+    public boolean terminarSolicitudAlimentos(List<AlimentoSolFinishResponse> listaAli){
         boolean salida=false;
         for(int i=0;i<listaAli.size();i++){
-
-            Alimento ali=Alimento.builder()
-                    .fechaVenc(transformarFechaHora(listaAli.get(i).getFecha_Vencimiento()))
-                    .cantidad(listaAli.get(i).getCantidad())
-                    .tipo(listaAli.get(i).getTipo())
-                    .estado(listaAli.get(i).getEstado())
-                    .build();
-            alimentoRepository.save(ali);
-            Solicitud sol1=solicitudRepository.findByIdsolicitud(listaAli.get(i).getIddonacionOsolicitud()).orElse(null);
-            if(sol1 != null){
-                SolicitaA contA=SolicitaA.builder()
-                            .alimento(ali)
-                            .solicitud(sol1)
-                            .cantidadA(listaAli.get(i).getCantidad())
-                            .build();
-                solicitaARepository.save(contA);
-                salida=true;
+            AlimentoSolFinishResponse solF=listaAli.get(i);
+            Alimento ali=alimentoRepository.findByIdalimento(solF.getIdAlimento()).orElse(null);
+            if(ali != null){
+                int cantA=ali.getCantidad()-solF.getCantidad();
+                if(cantA>-1){
+                    ali.setCantidad(cantA);
+                    alimentoRepository.save(ali);
+                    Solicitud sol1=solicitudRepository.findByIdsolicitud(solF.getIdsolitud()).orElse(null);
+                    if(sol1 != null){
+                        SolicitaA contA=SolicitaA.builder()
+                                    .alimento(ali)
+                                    .solicitud(sol1)
+                                    .cantidadA(solF.getCantidad())
+                                    .build();
+                        solicitaARepository.save(contA);
+                        salida=true;
+                    }
+                }
+    
+    
             }
 
         }
+                
 
         return salida;
     }
 
 
     @Transactional
-    public boolean terminarSolicitudProductos(List<ProductoFinishResponse> listaAli){
+    public boolean terminarSolicitudProductos(List<ProductoSolFinishResponse> listaProd){
         boolean salida=false;
-        for(int i=0;i<listaAli.size();i++){
-
-            Producto pro=Producto.builder()
-                    .cantidad(listaAli.get(i).getCantidad())
-                    .tipo(listaAli.get(i).getTipo())
-                    .estado(listaAli.get(i).getEstado())
-                    .build();
-
-            productoRepository.save(pro);
-            Solicitud sol1=solicitudRepository.findByIdsolicitud(listaAli.get(i).getIddonacionOsolicitud()).orElse(null);
-            if(sol1 != null){
-                SolicitaP solP=SolicitaP.builder()
-                            .producto(pro)
-                            .solicitud(sol1)
-                            .cantidadP(listaAli.get(i).getCantidad())
-                            .build();
-                solicitaPRepository.save(solP);
-                salida=true;
+        for(int i=0;i<listaProd.size();i++){
+            ProductoSolFinishResponse solF=listaProd.get(i);
+            Producto prod=productoRepository.findByIdproducto(solF.getIdProducto()).orElse(null);
+            if(prod != null){
+                int cantP=prod.getCantidad()-solF.getCantidad();
+                if(cantP>-1){
+                    prod.setCantidad(cantP);
+                    productoRepository.save(prod);
+                    Solicitud sol1=solicitudRepository.findByIdsolicitud(solF.getIdsolitud()).orElse(null);
+                    if(sol1 != null){
+                        SolicitaP contP=SolicitaP.builder()
+                                    .producto(prod)
+                                    .solicitud(sol1)
+                                    .cantidadP(solF.getCantidad())
+                                    .build();
+                        solicitaPRepository.save(contP);
+                        salida=true;
+                    }
+                }
+    
+    
             }
 
         }
+                
 
         return salida;
     }

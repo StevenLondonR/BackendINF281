@@ -30,7 +30,7 @@ public class NuestraOrgController {
 
     @Operation(
         summary = "Obtener los datos de nuestra organizacion",
-        description = ""
+        description = "Modifica la tabla NuestraOrganizacion"
     )
     @PostMapping(value="save")
     public ResponseEntity<Boolean> postMethodName(@RequestBody OrgSaveRequest orgRequest) {
@@ -39,7 +39,7 @@ public class NuestraOrgController {
 
     @Operation(
         summary = " Guardar los datos de nuestra organizacion",
-        description = ""
+        description = "Modifica la tabla NuestraOrganizacion"
     )
     @GetMapping("{id}")
     public ResponseEntity<NuestraOrganizacion> getMethodName(@PathVariable Integer id) {
@@ -52,7 +52,7 @@ public class NuestraOrgController {
     
     @Operation(
         summary = "Actualizar los datos de nuestra organizacion",
-        description = ""
+        description = "Modifica la tabla NuestraOrganizacion"
     )
     @PatchMapping()
     public ResponseEntity<Boolean> updateOrg(@RequestBody OrgRequest orgRequest){

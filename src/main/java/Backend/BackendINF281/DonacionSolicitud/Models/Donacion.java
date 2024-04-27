@@ -55,11 +55,11 @@ public class Donacion {
     @Column(name = "nro_voluntarios")
     private Integer nroVoluntariosC;
 
-    @ManyToOne(cascade = {CascadeType.ALL} )
+    @ManyToOne
     @JoinColumn(name="id_usuario")
     private Donante usuario;
     
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne
     @JoinColumn(name="id_voluntario")
     private Voluntario voluntario;      /// Responsable de reocger la donacion, si esta vacio la donacion esta en estado: SinResponsable 
 

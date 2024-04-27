@@ -9,12 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AlimentoFinishResponse {
-
-    Integer iddonacion;
-    String tipo;
-    String fecha_Vencimiento;
+public class ProductoSolFinishResponse {
+    
+    Integer idsolitud;
+    Integer idProducto;
     Integer cantidad;
-    String estado;
 
 }

@@ -22,14 +22,16 @@ public class ProductoService {
 
         List<Producto> listA=productorRepository.findAll();
         for(int i=0;i<listA.size();i++){
-
-            ProductoResponse a=ProductoResponse.builder()
-                        .idProducto(listA.get(i).getIdproducto())
-                        .tipo(listA.get(i).getTipo())
-                        .cantidad(listA.get(i).getCantidad())
-                        .estado(listA.get(i).getEstado())
-                        .build();
-            listAll.add(a);
+            if(listA.get(i).getCantidad()>0){
+                ProductoResponse a=ProductoResponse.builder()
+                            .idProducto(listA.get(i).getIdproducto())
+                            .tipo(listA.get(i).getTipo())
+                            .cantidad(listA.get(i).getCantidad())
+                            .estado(listA.get(i).getEstado())
+                            .build();
+                listAll.add(a);
+            }
+            
         }
 
         return listAll;

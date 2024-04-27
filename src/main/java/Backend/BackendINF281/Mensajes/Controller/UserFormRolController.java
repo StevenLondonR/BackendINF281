@@ -27,7 +27,7 @@ public class UserFormRolController {
 
     @Operation(
         summary = "Un usuario normal puede escoger un ROL(Voluntario, Receptor, Donante)",
-        description="IMPORTANTE: Todos los ejemplos estan en el README de github "
+        description="IMPORTANTE: Todos los ejemplos estan en el README de github. Modificara la tabla mensaje_rol "
     )
     @PostMapping(value = "escogerRol")
     public Boolean escogerRol(@RequestBody escogerRolRequest request){
@@ -47,7 +47,7 @@ public class UserFormRolController {
 
     @Operation(
         summary = "Un usuario normal puede escoger un ROL(Voluntario, Receptor, Donante)",
-        description="IMPORTANTE: En la entrada de datos el atributo 'subrol' puede tener los siguinetes valores: Colaborador, Responsable"
+        description="IMPORTANTE: En la entrada de datos el atributo 'subrol' puede tener los siguinetes valores: Colaborador, Responsable. Modificara la tabla mensaje_vol"
     )
     @PostMapping(value="escogerSubRolVol")
     public boolean escogerSubRolVol(@RequestBody RolVolRequest request) {
@@ -58,7 +58,7 @@ public class UserFormRolController {
 
     @Operation(
         summary = "Aceptar el mensaje de un usuario voluntario que postula(Responsable, Colaborador)",
-        description=""
+        description="Esta accion modifica las tablas: mensaje_vol y voluntario"
     )
     @GetMapping(value = "acceptMessageUserVol/{idMensaje}")
     public boolean acceptUserVol(@PathVariable Integer idMensaje) {
@@ -68,7 +68,7 @@ public class UserFormRolController {
     
     @Operation(
         summary = "Rechazar el mensaje de un usuario voluntario que postula(Responsable, Colaborador)",
-        description=""
+        description="Esta accion modifica la tabla mensaje_vol. "
     )
     @GetMapping(value = "refusedMessageUserVol/{idMensaje}")
     public boolean refusedUserVol(@PathVariable Integer idMensaje) {
@@ -77,8 +77,8 @@ public class UserFormRolController {
 
 
     @Operation(
-        summary = "Eliminar el mensaje de un usuario Volutnario que postula(Responsable, Colaborador)",
-        description="IMPORTANTE: Solo se puede eliminar los mensaje que tienen el estado: Rechazado" 
+        summary = "Eliminar el mensaje de un usuario Volutnario que postula al subrol: Responsable, Colaborador",
+        description="( Esta accion modifica la tabla mensaje_vol ) IMPORTANTE: Solo se puede eliminar los mensaje que tienen el estado: Rechazado " 
     )
     @DeleteMapping(value = "deleteMessageUserVol/{idMensaje}")
     public boolean deleteMessageUserVol(@PathVariable Integer idMensaje) {
@@ -86,8 +86,8 @@ public class UserFormRolController {
     }
 
     @Operation(
-        summary = "Obtener a todos los mensajes de los usuario voluntario que postulan(Responsable, Colaborador)",
-        description="IMPORTANTE: En la entrada el atributo 'estadoMensajeSubRol' es el estado del mensaje(Rechazado, Pendiente), el atributo 'subrol' puede tener los valores: Colaborador, Responsable"
+        summary = "Obtener a todos los mensajes de los usuario voluntario que postulan al subrol: Responsable, Colaborador",
+        description="IMPORTANTE: En la entrada el atributo 'estadoMensajeSubRol' es el estado del mensaje (Rechazado, Pendiente), el atributo 'subrol' puede tener los valores: Colaborador, Responsable o ambas. \n Ejemplo) subrol: Colaborador  \n  subrol: Responsable  \n  subrol: Colaborador,Responsable "
     )
     @GetMapping(value="getAllPostulantesSubRolVol")
     public List<UserSubRolVolResponse> getAllPostulantesSubRolVol() {  ///  se obtiene a los voluntarios que postulan a un subRol: Responsable, Voluntario

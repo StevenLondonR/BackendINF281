@@ -1,5 +1,4 @@
 package Backend.BackendINF281.Inventario.Controller;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,12 +8,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AlimentoFinishResponse {
-
-    Integer iddonacion;
-    String tipo;
-    String fecha_Vencimiento;
+public class AlimentoSolFinishResponse {
+    
+    Integer idsolitud;
+    Integer idAlimento;
     Integer cantidad;
-    String estado;
-
+    
 }

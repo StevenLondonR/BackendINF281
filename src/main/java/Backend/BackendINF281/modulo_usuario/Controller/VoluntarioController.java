@@ -39,7 +39,7 @@ public class VoluntarioController {
     
     @Operation(
         summary = "Que un usuario voluntario Responsable puede escoger donacion", 
-        description ="Un usuario que ya es un voluntario  con subrol de Responsable puede elegir una donacion de la cual quiere ser Responsable "
+        description ="( Modifica la tabla Donacion )Un usuario que ya es un voluntario  con subrol de Responsable puede elegir una donacion de la cual quiere ser Responsable "
     )
     @PostMapping(value="escogerDonResponsable")
     public boolean escogerDonResponsable(@RequestBody VolEscogerDonRequest request) {
@@ -48,7 +48,7 @@ public class VoluntarioController {
     
     @Operation(
         summary = "Que un usuario voluntario Responsable puede quitar donacion escogida", 
-        description ="Un usuario que ya es un voluntario con subrol de Responsable puede quitar una donacion de la cual ya lo habia elegido antes."
+        description ="( Modifica la tabla Donacion )Un usuario que ya es un voluntario con subrol de Responsable puede quitar una donacion de la cual ya lo habia elegido antes."
     )
     @PostMapping(value="quitarDonResponsable")
     public boolean quitarDonResponsable(@RequestBody VolEscogerDonRequest request) {
@@ -57,7 +57,7 @@ public class VoluntarioController {
 
     @Operation(
         summary = "El usuario voluntario Responsable puede establecer el numero de voluntarios colaboradores que se necesitan", 
-        description ="Un usuario que ya es un voluntario con subrol de Responsable modificara el nro de colaboradores"
+        description ="( Modifica la tabla Donacion )Un usuario que ya es un voluntario con subrol de Responsable modificara el nro de colaboradores"
     )
     @PostMapping(value="establecerNroVolDonC")
     public boolean establecerNroVolDonC(@RequestBody ResponsableNroVolRequest request) {
@@ -66,8 +66,8 @@ public class VoluntarioController {
     ////////////////////////////////////////////////////////////////////////////////
 
     @Operation(
-        summary = "Que un usuario voluntario colaborador puede escoger donacion ", 
-        description ="Un usuario que ya es un voluntario con subrol de responsable puede escoger una donacion que ya tenga un Voluntario Responsable y ya este establecido el nro de Colaboradores que se necesitan. "
+        summary = "Para que un usuario voluntario colaborador puede escoger donacion ", 
+        description ="( Modifica la tabla Donacion )Un usuario que ya es un voluntario con subrol de responsable puede escoger una donacion que ya tenga un Voluntario Responsable y ya este establecido el nro de Colaboradores que se necesitan. "
     )
     @PostMapping(value="escogerDonColaborador")
     public boolean escogerDonColaborador(@RequestBody VolEscogerDonRequest request) {
@@ -75,7 +75,7 @@ public class VoluntarioController {
     }
 
     @Operation(
-        summary = "Que un usuario voluntario Colaborador puede quitar donacion escogida", 
+        summary = "Para que un usuario voluntario Colaborador puede quitar donacion escogida", 
         description ="Un usuario que ya es un voluntario con subrol de Colaborador puede quitar una donacion de la cual ya elegido antes."
     )
     @PostMapping(value="quitarDonColaborador")
@@ -86,7 +86,7 @@ public class VoluntarioController {
 /////////////////////////////////////////////////////////// SOLICITUDES ///////////////////////////////////////////////////////////////
 
     @Operation(
-        summary = "Que un usuario voluntario Responsable puede escoger Solicitud", 
+        summary = "Para que un usuario voluntario Responsable puede escoger Solicitud", 
         description ="Un usuario que ya es un voluntario  con subrol de Responsable puede elegir una Solicitud de la cual quiere ser Responsable "
     )
     @PostMapping(value="escogerSolResponsable")
@@ -96,7 +96,7 @@ public class VoluntarioController {
 
 
     @Operation(
-        summary = "Que un usuario voluntario Responsable puede quitar Solicitud escogida", 
+        summary = "Para que un usuario voluntario Responsable puede quitar Solicitud escogida", 
         description ="Un usuario que ya es un voluntario con subrol de Responsable puede quitar una Solicitud de la cual ya lo habia elegido antes."
     )
     @PostMapping(value="quitarSolResponsable")

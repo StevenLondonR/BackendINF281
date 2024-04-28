@@ -61,6 +61,9 @@ public class Solicitud {
     @JoinColumn(name="id_voluntario")
     private Voluntario voluntario;
 
+    @Column(name="ubicacion")
+    private String ubicacion;
+
     @ManyToMany( cascade = {CascadeType.ALL}  )
     @JoinTable(
         name = "entrega",

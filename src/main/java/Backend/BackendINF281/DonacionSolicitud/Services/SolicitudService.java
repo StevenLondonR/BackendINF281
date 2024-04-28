@@ -82,6 +82,7 @@ public class SolicitudService {
                             .fechaHoraProg(convertGregorianDate(cal)) // convertido a la salida => dd/MM/yyyy HH:mm:ss 
                             .estado(verificarEstadoSolicitud(listSol.get(i)))
                             .correoResponsable(respon)
+                            .ubicacion(listSol.get(i).getUbicacion())
                             .nroRequeridoCol(listSol.get(i).getCantidadReqVol())
                             .nroColaboradores(listSol.get(i).getNroVoluntariosC())
                             .build();
@@ -147,6 +148,7 @@ public class SolicitudService {
                                 .fechaHoraProg(convertGregorianDate(listDon.get(i).getFecha_hora_prog())) // TODO veficar la posicion de los datos al convertir a string 
                                 .estado(verificarEstadoSolicitud(listDon.get(i)))
                                 .correoResponsable(respon)
+                                .ubicacion(listDon.get(i).getUbicacion())
                                 .nroRequeridoCol(listDon.get(i).getCantidadReqVol())
                                 .nroColaboradores(listDon.get(i).getNroVoluntariosC())
                                 .build(); 
@@ -201,6 +203,7 @@ public class SolicitudService {
                                 .fechaHoraProg(convertGregorianDate(listRec.get(i).getFecha_hora_prog())) // TODO veficar la posicion de los datos al convertir a string 
                                 .estado(verificarEstadoSolicitud(listRec.get(i)))
                                 .correoResponsable(respon)
+                                .ubicacion(listRec.get(i).getUbicacion())
                                 .nroRequeridoCol(listRec.get(i).getCantidadReqVol())
                                 .nroColaboradores(listRec.get(i).getNroVoluntariosC())
                                 .build();
@@ -282,6 +285,7 @@ public class SolicitudService {
                         .nroVoluntariosC(0)
                         .voluntario(null)
                         .usuario(rec1)
+                        .ubicacion(request.getUbicacion())
                         .listVoluntariosColab(new ArrayList<>())
                         .build();
             solicitudRepository.save(solicitud1);
@@ -349,6 +353,9 @@ public class SolicitudService {
         }
         if(!request.getTipo_ap().equalsIgnoreCase("") || !request.getTipo_ap().equalsIgnoreCase(null)){
             solicitud1.setTipo_ap(request.getTipo_ap());
+        }
+        if(!request.getUbicacion().equalsIgnoreCase("") || !request.getUbicacion().equalsIgnoreCase(null)){
+            solicitud1.setUbicacion(request.getUbicacion());
         }
         if(!request.getFechaHoraProgramada().equalsIgnoreCase("") || !request.getFechaHoraProgramada().equalsIgnoreCase(null)){
             Calendar p=transformarFechaHora(request.getFechaHoraProgramada());

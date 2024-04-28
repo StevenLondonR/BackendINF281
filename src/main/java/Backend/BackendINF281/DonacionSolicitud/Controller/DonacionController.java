@@ -110,8 +110,8 @@ public class DonacionController {
 
 /////////////////////////////////////////////VOLUNTARIO///////////////////////
     @Operation(
-        summary = "Obtener las donaciones que escogio un usuario Volutnario Responsable ",
-        description = "Importante: En la salida: el atributo 'estado' puede tener los siguientes valores: SinResponsable, Pendiente, Realizado. Los atributos nombreU, apellidoU, telefonoU son datos el usuario donante.  "
+        summary = "Obtener las donaciones que escogio un usuario Volutnario Responsable. Los atributos nombreU, apellidoU, telefonoU son datos el usuario donante.   ",
+        description = "Importante: En la salida: el atributo 'estado' puede tener los siguientes valores: SinResponsable, Pendiente, Realizado. Los atributos nombreU, apellidoU, telefonoU son datos el usuario donante.  En la salida se mostrara el correo del usuario Voluntario Responsable"
     )
     @PostMapping(value="getAllDonacionesResponsable")
     public List<DonacionResponse> getAllDonacionesResponsable(@RequestBody UserRequest User) throws ParseException {
@@ -119,8 +119,8 @@ public class DonacionController {
     }
 
     @Operation(
-        summary = "Obtener las donaciones que escogio un usuario Volutnario Colaborador ",
-        description = "Importante: En la salida: el atributo 'estado' puede tener los siguientes valores: SinResponsable, Pendiente, Realizado. Los atributos nombreU, apellidoU, telefonoU son datos el usuario donante."
+        summary = "Obtener las donaciones que escogio un usuario Volutnario Colaborador .  Los atributos nombreU, apellidoU, telefonoU son datos el usuario donante.  ",
+        description = "Importante: En la salida: el atributo 'estado' puede tener los siguientes valores: SinResponsable, Pendiente, Realizado. Los atributos nombreU, apellidoU, telefonoU son datos el usuario donante. En la salida no se mostraran los datos del voluntario colaborador. "
     )
     @PostMapping(value="getAllDonacionesColaborador")
     public List<DonacionResponse> getAllDonacionesColaborador(@RequestBody UserRequest User) throws ParseException {

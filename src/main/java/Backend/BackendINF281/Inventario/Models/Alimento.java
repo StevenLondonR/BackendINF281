@@ -38,6 +38,7 @@ public class Alimento {
     private Integer idalimento;
 
     private String tipo;
+    private String nombre;
 
     @Column(name="fecha_venc")
     @Temporal(TemporalType.TIMESTAMP)

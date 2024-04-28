@@ -30,10 +30,14 @@ public class SecurityConfig {
                 .authorizeHttpRequests( authRequest -> 
                     authRequest
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/imageNuestraOrg/**").permitAll()
+                        .requestMatchers("/nuestraOrg/**").permitAll()
+                        .requestMatchers("/nuestraOrg/getImagenesMision/{id}").permitAll()
                         .requestMatchers("/nuestraOrg/{id}").permitAll()
                         .requestMatchers("/swagger-ui/**").permitAll()
                         .requestMatchers("/v3/**").permitAll()
                         .anyRequest().authenticated()
+                        
                 )
                             .sessionManagement(sessionManager -> 
                 sessionManager
@@ -41,6 +45,7 @@ public class SecurityConfig {
                 .authenticationProvider(authProvider)
                 .addFilterBefore(jwtauthenticationfilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
+                
     }
 
 }

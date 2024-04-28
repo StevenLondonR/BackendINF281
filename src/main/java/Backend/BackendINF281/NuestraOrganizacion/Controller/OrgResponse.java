@@ -1,6 +1,7 @@
 package Backend.BackendINF281.NuestraOrganizacion.Controller;
 
-import org.springframework.web.multipart.MultipartFile;
+
+import org.springframework.core.io.Resource;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,8 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrgSaveRequest {
-
+public class OrgResponse {
     private String mision;
 
     private String vision;

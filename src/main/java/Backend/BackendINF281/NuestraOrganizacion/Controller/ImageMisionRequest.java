@@ -11,13 +11,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrgSaveRequest {
+public class ImageMisionRequest {
 
-    private String mision;
-
-    private String vision;
-
-    private String que_hacemos;
-
+    private int idNuestraOrg;
+    private MultipartFile imageVision;
 
 }

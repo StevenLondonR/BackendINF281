@@ -31,4 +31,6 @@ public class NuestraOrganizacion {
     @Column(name = "que_hacemos")
     private String quehacemos;
 
+    private String imagenes;
+
 }

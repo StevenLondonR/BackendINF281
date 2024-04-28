@@ -13,6 +13,7 @@ public class AlimentoFinishResponse {
 
     Integer iddonacion;
     String tipo;
+    String nombreAlimento;
     String fecha_Vencimiento;
     Integer cantidad;
     String estado;

@@ -63,6 +63,9 @@ public class Donacion {
     @JoinColumn(name="id_voluntario")
     private Voluntario voluntario;      /// Responsable de reocger la donacion, si esta vacio la donacion esta en estado: SinResponsable 
 
+    @Column(name="ubicacion")
+    private String ubicacion;
+
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable( 

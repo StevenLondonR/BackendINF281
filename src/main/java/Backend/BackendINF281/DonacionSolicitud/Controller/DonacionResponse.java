@@ -19,6 +19,7 @@ public class DonacionResponse {
     String tipo_ap;     // de la entidad donacion
     String fechaHoraProg; // de la entidad donacion
     String estado;  // SinResponsable, Pendiente, Realizado
+    String ubicacion;
     String correoResponsable;  // de la entidad Voluntario
     Integer nroRequeridoCol;   // de la entidad donacion
     Integer nroColaboradores;  // de la entidad donacion

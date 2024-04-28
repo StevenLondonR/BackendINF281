@@ -16,5 +16,6 @@ public class EditSolicitudRequest {
     Integer cantidad;
     String tipo_ap;
     String fechaHoraProgramada;
+    String ubicacion;
 
 }

@@ -36,6 +36,7 @@ public class AlimentoService {
                         .tipo(listA.get(i).getTipo())
                         .cantidad(listA.get(i).getCantidad())
                         .fecha_Vencimiento(convertGregorianDate(listA.get(i).getFechaVenc()))
+                        .nombreAlimento(listA.get(i).getNombre())
                         .estado(listA.get(i).getEstado())
                         .build();
                 listAll.add(a);

@@ -19,6 +19,7 @@ public class SolicitudResponse {
     String tipo_ap;     // de la entidad Solicitud
     String fechaHoraProg; // de la entidad Solicitud
     String estado;  // SinResponsable, Pendiente, Realizado
+    String ubicacion;
     String correoResponsable;  // de la entidad Voluntario
     Integer nroRequeridoCol;   // de la entidad Solicitud
     Integer nroColaboradores;  // de la entidad Solicitud

@@ -16,5 +16,6 @@ public class EditDonacionRequest {
     Integer cantidad;
     String tipo_ap;
     String fechaHoraRecogida;
+    String ubicacion;
 
 }

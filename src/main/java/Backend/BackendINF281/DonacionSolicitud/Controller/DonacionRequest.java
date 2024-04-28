@@ -15,5 +15,6 @@ public class DonacionRequest {
     Integer cantidad;
     String tipo_ap;
     String fechaHoraRecogida;
-    
+    String ubicacion;
+
 }

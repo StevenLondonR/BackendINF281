@@ -82,6 +82,7 @@ public class DonacionService {
                             .fechaHoraProg(convertGregorianDate(cal)) // convertido a la salida => dd/MM/yyyy HH:mm:ss 
                             .estado(verificarEstadoDonacion(listDon.get(i)))
                             .correoResponsable(respon)
+                            .ubicacion(listDon.get(i).getUbicacion())
                             .nroRequeridoCol(listDon.get(i).getCantidadReqVol())
                             .nroColaboradores(listDon.get(i).getNroVoluntariosC())
                             .build();
@@ -145,6 +146,7 @@ public class DonacionService {
                                 .fechaHoraProg(convertGregorianDate(listDon.get(i).getFecha_hora_adquisicion())) // TODO veficar la posicion de los datos al convertir a string 
                                 .estado(verificarEstadoDonacion(listDon.get(i)))
                                 .correoResponsable(respon)
+                                .ubicacion(listDon.get(i).getUbicacion())
                                 .nroRequeridoCol(listDon.get(i).getCantidadReqVol())
                                 .nroColaboradores(listDon.get(i).getNroVoluntariosC())
                                 .build();
@@ -182,6 +184,7 @@ public class DonacionService {
                                 .correoResponsable(respon)
                                 .nroRequeridoCol(listDon.get(i).getCantidadReqVol())
                                 .nroColaboradores(listDon.get(i).getNroVoluntariosC())
+                                .ubicacion(listDon.get(i).getUbicacion())
                                 .build();
                 listResponse.add(donResp);
             }
@@ -267,6 +270,7 @@ public class DonacionService {
 
     
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
     public boolean realizarD(DonacionRequest request) {
         boolean salida=false;
         Usuario user=usuarioRepository.findByCorreo(request.getCorreo()).orElse(null);
@@ -281,6 +285,7 @@ public class DonacionService {
                         .voluntario(null)
                         .usuario(don1)
                         .listVoluntariosColab(new ArrayList<>())
+                        .ubicacion(request.getUbicacion())
                         .build();
             donacionRepository.save(donacion1);
 
@@ -291,6 +296,7 @@ public class DonacionService {
         }
         return salida;
     }
+
     private Calendar transformarFechaHora(String fechahora){  /// formato fecha hora: dd/MM/yy/hh/mm    formato fecha hora: dd/MM/yy hh:mm:ss  
         String[] FH=fechahora.split("/");
         SimpleDateFormat formatF=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -362,6 +368,9 @@ public class DonacionService {
         if(!request.getTipo_ap().equalsIgnoreCase("") || !request.getTipo_ap().equalsIgnoreCase(null)){
             donacion1.setTipo_ap(request.getTipo_ap());
         }
+        if(!request.getUbicacion().equalsIgnoreCase("") || !request.getUbicacion().equalsIgnoreCase(null)){
+            donacion1.setUbicacion(request.getUbicacion());
+        }
         if(!request.getFechaHoraRecogida().equalsIgnoreCase("") || !request.getFechaHoraRecogida().equalsIgnoreCase(null)){
             Calendar p=transformarFechaHora(request.getFechaHoraRecogida());
             if(p!=null){
@@ -383,6 +392,7 @@ public class DonacionService {
                     .fechaVenc(transformarFechaHora(listaAli.get(i).getFecha_Vencimiento()))
                     .cantidad(listaAli.get(i).getCantidad())
                     .tipo(listaAli.get(i).getTipo())
+                    .nombre(listaAli.get(i).getNombreAlimento())
                     .estado(listaAli.get(i).getEstado())
                     .build();
             alimentoRepository.save(ali);

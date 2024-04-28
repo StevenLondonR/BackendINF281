@@ -14,4 +14,5 @@ public class SolicitudRequest {
     Integer cantidad;
     String tipo_ap;
     String fechaHoraProgramada;
+    String ubicacion;
 }

@@ -146,6 +146,7 @@ public class OrgService {
                         }
                         nuestraO.setImagenes(sa);
                         nuestraOrgR.save(nuestraO);
+                        salida=true;
                         
                     } catch (IOException e) {
                         // TODO Auto-generated catch block
@@ -184,7 +185,7 @@ public class OrgService {
                         }
                         nuestraO.setImagenes(sa);
                         nuestraOrgR.save(nuestraO);
-                        
+                        salida=true;
                     } catch (IOException e) {
                         // TODO Auto-generated catch block
                         return false;
@@ -222,7 +223,7 @@ public class OrgService {
                         }
                         nuestraO.setImagenes(sa);
                         nuestraOrgR.save(nuestraO);
-                        
+                        salida=true;
                     } catch (IOException e) {
                         // TODO Auto-generated catch block
                         return false;

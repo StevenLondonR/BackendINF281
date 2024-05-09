@@ -74,7 +74,7 @@ public class DonacionController {
     )
     @PostMapping(value="getDonNoRealizadas")
     public List<DonacionResponse> getDonNoRealizadasU(@RequestBody UserRequest User) throws ParseException {
-        return donService.getDNoRealizados(User);
+       return donService.getDNoRealizados(User);
     }
     // TODO Agregar getDonPendiente, getDonSinRepsentante para el voluntario repesentante y colaborador
     

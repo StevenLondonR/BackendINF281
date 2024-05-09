@@ -12,6 +12,6 @@ public class AlimentoSolFinishResponse {
     
     Integer idsolitud;
     Integer idAlimento;
-    Integer cantidad;
+    // TODO se elimino Integer cantidad;
     
 }

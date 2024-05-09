@@ -13,6 +13,6 @@ public class ProductoSolFinishResponse {
     
     Integer idsolitud;
     Integer idProducto;
-    Integer cantidad;
+   // TODO se elimino Integer cantidad;
 
 }

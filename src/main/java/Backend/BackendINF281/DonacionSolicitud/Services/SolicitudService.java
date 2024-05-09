@@ -8,6 +8,9 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Iterator;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
@@ -41,6 +44,7 @@ import Backend.BackendINF281.modulo_usuario.repository.VoluntarioRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
+
 @Service
 @RequiredArgsConstructor
 public class SolicitudService {
@@ -70,7 +74,9 @@ public class SolicitudService {
                 }
             }
             Calendar cal=listSol.get(i).getFecha_hora_prog();
-
+            Map<Integer,Integer> al=separarAli(listSol.get(i).getTipo_ap());
+            Map<Integer,Integer> pr=separarProd(listSol.get(i).getTipo_ap());
+            System.out.println(al.keySet().size());
                 
             SolicitudResponse SolResp=SolicitudResponse.builder()
                             .idSolicitud(listSol.get(i).getIdsolicitud())
@@ -78,7 +84,7 @@ public class SolicitudService {
                             .apellidoU(user.getApellido())
                             .telefonoU(user.getTelefono())
                             .cantidad(listSol.get(i).getCantidad())
-                            .tipo_ap(listSol.get(i).getTipo_ap())
+                            .tipo_ap(obtenerAli(al)+";"+obtenerProd(pr))
                             .fechaHoraProg(convertGregorianDate(cal)) // convertido a la salida => dd/MM/yyyy HH:mm:ss 
                             .estado(verificarEstadoSolicitud(listSol.get(i)))
                             .correoResponsable(respon)
@@ -137,6 +143,11 @@ public class SolicitudService {
                         respon=user2.getCorreo();
                     }
                 }
+                
+                Map<Integer,Integer> al=separarAli(listDon.get(i).getTipo_ap());
+                Map<Integer,Integer> pr=separarProd(listDon.get(i).getTipo_ap());
+                System.out.println(listDon.get(i));
+                System.out.println(pr.size());
 
                 SolicitudResponse donResp=SolicitudResponse.builder()
                                 .idSolicitud(listDon.get(i).getIdsolicitud())
@@ -144,7 +155,7 @@ public class SolicitudService {
                                 .apellidoU(user.getApellido())
                                 .telefonoU(user.getTelefono())
                                 .cantidad(listDon.get(i).getCantidad())
-                                .tipo_ap(listDon.get(i).getTipo_ap())
+                                .tipo_ap(obtenerAli(al)+";"+obtenerProd(pr))
                                 .fechaHoraProg(convertGregorianDate(listDon.get(i).getFecha_hora_prog())) // TODO veficar la posicion de los datos al convertir a string 
                                 .estado(verificarEstadoSolicitud(listDon.get(i)))
                                 .correoResponsable(respon)
@@ -277,6 +288,9 @@ public class SolicitudService {
         Usuario user=usuarioRepository.findByCorreo(request.getCorreo()).orElse(null);
         Receptor rec1=receptorRepository.findByIdusuario(user.getIdUsuario()).orElse(null);
         if(rec1 != null){
+            Map<Integer,Integer> al=separarAli(request.getTipo_ap());
+            Map<Integer,Integer> pr=separarProd(request.getTipo_ap());
+
             Solicitud solicitud1=Solicitud.builder()
                         .cantidad(request.getCantidad())
                         .tipo_ap(request.getTipo_ap())
@@ -292,9 +306,117 @@ public class SolicitudService {
 
             Solicitud SolEval=solicitudRepository.findByIdsolicitud(solicitud1.getIdsolicitud()).orElse(null);
             if(SolEval != null){
+                Iterator a = al.keySet().iterator();
+                Iterator p = pr.keySet().iterator();
+                while(a.hasNext()){
+                    int keyA=(int) a.next();
+                    System.out.println("key: "+keyA);
+                    Alimento alimentoM=alimentoRepository.findByIdalimento(keyA).orElse(null);
+                    if(alimentoM!=null){
+                        int cat=alimentoM.getCantidad();
+                        int res=cat-al.get(keyA);
+                        alimentoM.setCantidad(res);
+                        alimentoRepository.save(alimentoM);
+                    } 
+                }
+
+                while(p.hasNext()){
+                    int keyA=(int) p.next();
+                    System.out.println("Key: "+keyA);
+                    Producto productoM=productoRepository.findByIdproducto(keyA).orElse(null);
+                    if(productoM!=null){
+                        int cat=productoM.getCantidad();
+                        int res=cat-pr.get(keyA);
+                        productoM.setCantidad(res);
+                        productoRepository.save(productoM);
+                    }
+                }
+
+
                 salida=true;
             }
         }
+        return salida;
+    }
+
+    private Map<Integer,Integer> separarAli(String entrada){
+        System.out.println("separarAli: "+entrada);
+        Map<Integer,Integer> salida=new HashMap<>();
+        
+        String[] sepAll=entrada.split(";");
+        System.out.println("sepAll: "+sepAll.length);
+        String[] sepAli=sepAll[0].split(",");
+        System.out.println("sepAli: "+sepAli.length);
+        for(int i =0;i<sepAli.length;i++){
+            if(sepAli.length>1){
+                String[] p=sepAli[i].split("\\.");
+                if(p.length>0){
+                    salida.put( Integer.parseInt(p[1]), Integer.parseInt(p[0]));
+                }
+            }
+
+        } 
+
+
+        return salida;
+    }
+
+    private Map<Integer,Integer> separarProd(String entrada){
+        System.out.println("separarProd: "+entrada);
+        Map<Integer,Integer> salida=new HashMap<>();
+        
+        String[] sepAll=entrada.split(";");
+        if(sepAll.length > 1){
+            String[] sepAli=sepAll[1].split(",");
+            for(int i =0;i<sepAli.length;i++){
+                String[] p=sepAli[i].split("\\.");
+                salida.put(Integer.parseInt(p[1]),Integer.parseInt(p[0]));
+            }             
+        }
+
+        return salida;
+    }
+
+    private String obtenerAli( Map<Integer,Integer> entrada ){
+        String salida="";   ////// salida[0][*]= nombre alimento , salida[1][*]=cantidad de alimento
+        Iterator keys=entrada.keySet().iterator();
+        int cont=0;
+        while(keys.hasNext()){
+            Integer key=(Integer)keys.next();
+            
+            Alimento a=alimentoRepository.findByIdalimento(key).orElse(null);
+            System.out.println(a.getNombre());
+            if(a!=null && cont==0){
+                salida=entrada.get(key).toString()+a.getNombre();
+            }else if(a!=null && cont>0){    
+                salida=salida+","+entrada.get(key).toString()+a.getNombre();
+            }
+            cont++;
+        }
+
+        return salida;
+    }
+
+
+    private String obtenerProd( Map<Integer,Integer> entrada ){
+        String salida="";   ////// salida[0][*]= nombre alimento , salida[1][*]=cantidad de alimento
+        Iterator keys=entrada.keySet().iterator();
+        int cont=0;
+        while(keys.hasNext()){
+            Integer key=(Integer)keys.next();
+            
+            Producto a=productoRepository.findByIdproducto(key).orElse(null);
+
+            if(a!=null && cont == 0){
+                salida=entrada.get(key).toString()+a.getTipo();
+            }else if(a!=null && cont>0){
+                salida=salida+","+entrada.get(key).toString()+a.getTipo();
+
+            }
+
+            cont++;
+        }
+
         return salida;
     }
 
@@ -378,7 +500,36 @@ public class SolicitudService {
             if(solicitud1 != null && rec1 != null && rec1.getListSolicitudesR().contains(solicitud1)){
                 
                 if(!verificarEstadoSolicitud(solicitud1).equalsIgnoreCase("Realizado")){
+                    Map<Integer,Integer> al=separarAli(solicitud1.getTipo_ap());
+                    Map<Integer,Integer> pr=separarProd(solicitud1.getTipo_ap());
+
+                    Iterator a = al.keySet().iterator();
+                    Iterator p = pr.keySet().iterator();
+                    while(a.hasNext()){
+                        int keyA=(int) a.next();
+                        Alimento alimentoM=alimentoRepository.findByIdalimento(keyA).orElse(null);
+                        if(alimentoM!=null){
+                            int cat=alimentoM.getCantidad();
+                            int res=cat+al.get(keyA);
+                            alimentoM.setCantidad(res);
+                            alimentoRepository.save(alimentoM);
+                        }
+                    }
+
+                    while(p.hasNext()){
+                        int keyA=(int) p.next();
+                        Producto productoM=productoRepository.findByIdproducto(keyA).orElse(null);
+                        if(productoM!=null){
+                            int cat=productoM.getCantidad();
+                            int res=cat+al.get(keyA);
+                            productoM.setCantidad(res);
+                            productoRepository.save(productoM);
+                        }
+                    }
+
                     solicitudRepository.delete(solicitud1);
+
+
                     salida=true;
                 }
             }
@@ -395,7 +546,7 @@ public class SolicitudService {
             AlimentoSolFinishResponse solF=listaAli.get(i);
             Alimento ali=alimentoRepository.findByIdalimento(solF.getIdAlimento()).orElse(null);
             if(ali != null){
-                int cantA=ali.getCantidad()-solF.getCantidad();
+                int cantA=ali.getCantidad();
                 if(cantA>-1){
                     ali.setCantidad(cantA);
                     alimentoRepository.save(ali);
@@ -404,7 +555,6 @@ public class SolicitudService {
                         SolicitaA contA=SolicitaA.builder()
                                     .alimento(ali)
                                     .solicitud(sol1)
-                                    .cantidadA(solF.getCantidad())
                                     .build();
                         solicitaARepository.save(contA);
                         salida=true;
@@ -428,7 +578,7 @@ public class SolicitudService {
             ProductoSolFinishResponse solF=listaProd.get(i);
             Producto prod=productoRepository.findByIdproducto(solF.getIdProducto()).orElse(null);
             if(prod != null){
-                int cantP=prod.getCantidad()-solF.getCantidad();
+                int cantP=prod.getCantidad();
                 if(cantP>-1){
                     prod.setCantidad(cantP);
                     productoRepository.save(prod);
@@ -437,7 +587,6 @@ public class SolicitudService {
                         SolicitaP contP=SolicitaP.builder()
                                     .producto(prod)
                                     .solicitud(sol1)
-                                    .cantidadP(solF.getCantidad())
                                     .build();
                         solicitaPRepository.save(contP);
                         salida=true;

@@ -86,6 +86,7 @@ public class SolicitudController {
         summary = "Realizar una Solicitud, accion que puede realizar un Usuario Receptor",
         description = "En la entrada los atributos: correo de usuario Receptor y fechaHoraProgramada en el siguiente formato dd/MM/yyyy/HH/mm : El formato para tipo_ap es el siguiente: cantidad.idAliemento,cantidad.idAlimento;cantidad.idProducto,cantidad.idProducto"
     )
+    
     @PostMapping(value="realizarSolicitud")
     public boolean realizarSolicitud(@RequestBody SolicitudRequest request) {
         return solicitudService.realizarSolicitud(request);

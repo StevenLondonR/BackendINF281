@@ -539,6 +539,56 @@ public class SolicitudService {
     }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+public boolean concluirSolicitud(Integer IdSol){
+    boolean salida=false;
+    List<AlimentoSolFinishResponse> lA=new ArrayList<>();
+    List<ProductoSolFinishResponse> lP=new ArrayList<>(); 
+    Solicitud solA=solicitudRepository.findByIdsolicitud(IdSol).orElse(null);
+    if(solA!=null){
+        
+        Map<Integer,Integer> a=separarAli(solA.getTipo_ap());
+        Map<Integer,Integer> p=separarProd(solA.getTipo_ap());
+
+
+        Iterator keys=a.keySet().iterator();
+        Iterator keysP=p.keySet().iterator();
+        //System.out.println(p.size());
+        while(keys.hasNext()){
+            Integer key=(Integer)keys.next();
+            AlimentoSolFinishResponse res=AlimentoSolFinishResponse.builder()
+                        .idsolitud(IdSol)
+                        .idAlimento(key)
+                        .cantidad(a.get(key))
+                        .build();
+            lA.add(res);
+        }
+        if (!lA.isEmpty()) {
+            terminarSolicitudAlimentos(lA);
+            salida = true;
+        }
+        while(keysP.hasNext()){
+            Integer keyp=(Integer)keysP.next();
+            ProductoSolFinishResponse res=ProductoSolFinishResponse.builder()
+                        .idsolitud(IdSol)
+                        .idProducto(keyp)
+                        .cantidad(p.get(keyp))
+                        .build();
+            lP.add(res);
+
+        }
+        if (!lP.isEmpty()) {
+            terminarSolicitudProductos(lP);
+            salida = true;
+        }
+
+    }
+
+    return salida;
+}   
+
+
+
+
 @Transactional
     public boolean terminarSolicitudAlimentos(List<AlimentoSolFinishResponse> listaAli){
         boolean salida=false;
@@ -555,6 +605,7 @@ public class SolicitudService {
                         SolicitaA contA=SolicitaA.builder()
                                     .alimento(ali)
                                     .solicitud(sol1)
+                                    .cantidadA(listaAli.get(i).getCantidad())
                                     .build();
                         solicitaARepository.save(contA);
                         salida=true;
@@ -587,6 +638,7 @@ public class SolicitudService {
                         SolicitaP contP=SolicitaP.builder()
                                     .producto(prod)
                                     .solicitud(sol1)
+                                    .cantidadP(listaProd.get(i).getCantidad())
                                     .build();
                         solicitaPRepository.save(contP);
                         salida=true;

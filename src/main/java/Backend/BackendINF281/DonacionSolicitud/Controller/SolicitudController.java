@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -133,24 +134,16 @@ public class SolicitudController {
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////// ALIMENTOS Y PRODUCTOS
-    @Operation(
-        summary = "Para terminar una solicitud y realizar un registro de los alimentos",
-        description = ""
-    )
-    @PostMapping(value="terminarSolicitudAlimentos")
-    public boolean terminarSolicitudAlimentos(@RequestBody List<AlimentoSolFinishResponse> listaAli) throws ParseException {
-        return solicitudService.terminarSolicitudAlimentos(listaAli);
-    }
-
 
     @Operation(
-        summary = "Para terminar una solicitud y realizar un registro de los Productos",
-        description = ""
+        summary = "Para concluir una solicitud",
+        description = "Se concluye tanto los alimentos y los productos que tiene la solicitud"
     )
-    @PostMapping(value="terminarSolicitudProdcuctos")
-    public boolean terminarSolicitudProdcuctos(@RequestBody List<ProductoSolFinishResponse> listaProd) throws ParseException {
-        return solicitudService.terminarSolicitudProductos(listaProd);
+    @GetMapping(value="concluirSolicitud/{idSolicitud}")
+    public boolean concluirSolicitud(@PathVariable Integer idSolicitud ) throws ParseException {
+        return solicitudService.concluirSolicitud(idSolicitud);
     }
+
 
 
 

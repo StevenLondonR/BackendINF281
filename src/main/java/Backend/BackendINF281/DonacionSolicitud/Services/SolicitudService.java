@@ -76,7 +76,7 @@ public class SolicitudService {
             Calendar cal=listSol.get(i).getFecha_hora_prog();
             Map<Integer,Integer> al=separarAli(listSol.get(i).getTipo_ap());
             Map<Integer,Integer> pr=separarProd(listSol.get(i).getTipo_ap());
-            System.out.println(al.keySet().size());
+            //System.out.println(al.keySet().size());
                 
             SolicitudResponse SolResp=SolicitudResponse.builder()
                             .idSolicitud(listSol.get(i).getIdsolicitud())
@@ -146,8 +146,8 @@ public class SolicitudService {
                 
                 Map<Integer,Integer> al=separarAli(listDon.get(i).getTipo_ap());
                 Map<Integer,Integer> pr=separarProd(listDon.get(i).getTipo_ap());
-                System.out.println(listDon.get(i));
-                System.out.println(pr.size());
+                //System.out.println(listDon.get(i));
+                //System.out.println(pr.size());
 
                 SolicitudResponse donResp=SolicitudResponse.builder()
                                 .idSolicitud(listDon.get(i).getIdsolicitud())
@@ -165,7 +165,7 @@ public class SolicitudService {
                                 .build(); 
                 listResponse.add(donResp);
             }
-        }
+        }    
         return listResponse;
     } 
      

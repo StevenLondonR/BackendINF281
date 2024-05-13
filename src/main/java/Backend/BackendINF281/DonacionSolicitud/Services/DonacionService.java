@@ -298,8 +298,9 @@ public class DonacionService {
     }
 
     private Calendar transformarFechaHora(String fechahora){  /// formato fecha hora: dd/MM/yy/hh/mm    formato fecha hora: dd/MM/yy hh:mm:ss  
+        System.out.println("fechaHOra: "+fechahora);
         String[] FH=fechahora.split("/");
-        SimpleDateFormat formatF=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat formatF=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String fech=FH[2]+"-" + FH[1] + "-" + FH[0];  /// dd/MM/yyyy => yyyy-MM-dd
         String hor=FH[3] + ":" +FH[4]+":00";   //// hh:mm:ss
         Calendar salida = new GregorianCalendar();
@@ -317,6 +318,30 @@ public class DonacionService {
         }
 
     }
+
+    private Calendar transformarFechaHora2(String fechahora){  /// formato fecha hora: dd/MM/yy/hh/mm    formato fecha hora: dd/MM/yy hh:mm:ss  
+        System.out.println("fechaHOra: "+fechahora);
+        String[] FH=fechahora.split("/");
+        SimpleDateFormat formatF=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String fech=FH[2]+"-" + FH[1] + "-" + FH[0];  /// dd/MM/yyyy => yyyy-MM-dd
+        String hor="23:59:00";   //// hh:mm:ss
+        Calendar salida = new GregorianCalendar();
+        Date salida1;
+        try {
+            salida1 = (Date) formatF.parse(fech+" "+hor);
+            salida.setTime(salida1);
+            return salida;
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            salida1=new Date(0);
+            salida.setTime(salida1);
+            return salida;
+        }
+
+    }
+
+
 
     @Transactional
     public boolean deleteDonacion(DeleteDonacionRequest request) {
@@ -389,7 +414,7 @@ public class DonacionService {
         for(int i=0;i<listaAli.size();i++){
 
             Alimento ali=Alimento.builder()
-                    .fechaVenc(transformarFechaHora(listaAli.get(i).getFecha_Vencimiento()))
+                    .fechaVenc(transformarFechaHora2(listaAli.get(i).getFecha_Vencimiento()))
                     .cantidad(listaAli.get(i).getCantidad())
                     .tipo(listaAli.get(i).getTipo())
                     .nombre(listaAli.get(i).getNombreAlimento())

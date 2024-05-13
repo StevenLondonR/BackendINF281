@@ -203,6 +203,10 @@ public class SolicitudService {
                         respon=user2.getCorreo();
                     }
                 }
+                Map<Integer,Integer> al=separarAli(listRec.get(i).getTipo_ap());
+                Map<Integer,Integer> pr=separarProd(listRec.get(i).getTipo_ap());
+                
+
 
                 SolicitudResponse donResp=SolicitudResponse.builder()
                                 .idSolicitud(listRec.get(i).getIdsolicitud())
@@ -210,7 +214,7 @@ public class SolicitudService {
                                 .apellidoU(user.getApellido())
                                 .telefonoU(user.getTelefono())
                                 .cantidad(listRec.get(i).getCantidad())
-                                .tipo_ap(listRec.get(i).getTipo_ap())
+                                .tipo_ap(obtenerAli(al)+";"+obtenerProd(pr))
                                 .fechaHoraProg(convertGregorianDate(listRec.get(i).getFecha_hora_prog())) // TODO veficar la posicion de los datos al convertir a string 
                                 .estado(verificarEstadoSolicitud(listRec.get(i)))
                                 .correoResponsable(respon)
@@ -303,7 +307,8 @@ public class SolicitudService {
                         .listVoluntariosColab(new ArrayList<>())
                         .build();
             solicitudRepository.save(solicitud1);
-
+            int res=0;//para los alimentos
+            int resP=0; // para productos
             Solicitud SolEval=solicitudRepository.findByIdsolicitud(solicitud1.getIdsolicitud()).orElse(null);
             if(SolEval != null){
                 Iterator a = al.keySet().iterator();
@@ -314,9 +319,12 @@ public class SolicitudService {
                     Alimento alimentoM=alimentoRepository.findByIdalimento(keyA).orElse(null);
                     if(alimentoM!=null){
                         int cat=alimentoM.getCantidad();
-                        int res=cat-al.get(keyA);
-                        alimentoM.setCantidad(res);
-                        alimentoRepository.save(alimentoM);
+                        res=cat-al.get(keyA);
+                        if(res>=0){
+                            alimentoM.setCantidad(res);
+                            alimentoRepository.save(alimentoM);
+                        }
+
                     } 
                 }
 
@@ -326,14 +334,19 @@ public class SolicitudService {
                     Producto productoM=productoRepository.findByIdproducto(keyA).orElse(null);
                     if(productoM!=null){
                         int cat=productoM.getCantidad();
-                        int res=cat-pr.get(keyA);
-                        productoM.setCantidad(res);
-                        productoRepository.save(productoM);
+                        resP=cat-pr.get(keyA);
+                        if(resP>=0){
+                            productoM.setCantidad(resP);
+                            productoRepository.save(productoM);
+                        }
+                        
                     }
                 }
 
+                if(res>=0 && resP>=0){
+                    salida=true;
+                }
 
-                salida=true;
             }
         }
         return salida;
@@ -386,7 +399,7 @@ public class SolicitudService {
             Integer key=(Integer)keys.next();
             
             Alimento a=alimentoRepository.findByIdalimento(key).orElse(null);
-            System.out.println(a.getNombre());
+            //System.out.println(a.getNombre());
             if(a!=null && cont==0){
                 salida=entrada.get(key).toString()+a.getNombre();
             }else if(a!=null && cont>0){    
@@ -425,15 +438,17 @@ public class SolicitudService {
     private Calendar transformarFechaHora(String fechahora){  /// formato fecha hora: dd/MM/yy/hh/mm    formato fecha hora: dd/MM/yy hh:mm:ss  
         String[] FH=fechahora.split("/");
         if(FH.length>1){
-
-            SimpleDateFormat formatF=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            
+            SimpleDateFormat formatF=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String fech=FH[2]+"-" + FH[1] + "-" + FH[0];  /// dd/MM/yyyy => yyyy-MM-dd
             String hor=FH[3] + ":" +FH[4]+":00";   //// hh:mm:ss
+            System.out.println("Hora: "+hor);
             Calendar salida = new GregorianCalendar();
             Date salida1;
             try {
                 salida1 = (Date) formatF.parse(fech+" "+hor);
                 salida.setTime(salida1);
+                //System.out.println("HORA2: "+salida1.getHours());
                 return salida;
             } catch (ParseException e) {
                 // TODO Auto-generated catch block
@@ -522,7 +537,7 @@ public class SolicitudService {
                         Producto productoM=productoRepository.findByIdproducto(keyA).orElse(null);
                         if(productoM!=null){
                             int cat=productoM.getCantidad();
-                            int res=cat+al.get(keyA);
+                            int res=cat+pr.get(keyA);
                             productoM.setCantidad(res);
                             productoRepository.save(productoM);
                         }

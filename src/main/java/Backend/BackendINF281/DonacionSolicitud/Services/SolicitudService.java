@@ -346,10 +346,11 @@ public class SolicitudService {
         String[] sepAll=entrada.split(";");
         System.out.println("sepAll: "+sepAll.length);
         String[] sepAli=sepAll[0].split(",");
-        System.out.println("sepAli: "+sepAli.length);
+        System.out.println("sepAli: "+sepAli[0]);
         for(int i =0;i<sepAli.length;i++){
-            if(sepAli.length>1){
+            
                 String[] p=sepAli[i].split("\\.");
+            if(p.length>1){
                 if(p.length>0){
                     salida.put( Integer.parseInt(p[1]), Integer.parseInt(p[0]));
                 }
